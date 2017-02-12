@@ -34,6 +34,6 @@ function bridge(destination, options) {
 function mutate(options) {
   return transformer;
   function transformer(node) {
-    return mdast2hast(node, options);
+    return hast2mdast(node, options);
   }
 }
