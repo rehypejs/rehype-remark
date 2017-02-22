@@ -32,3 +32,34 @@ test('rehype2remark()', function (t) {
 
   t.end();
 });
+
+test('handlers option', function (t) {
+  var options = {
+    handlers: {
+      div: function (h, node) {
+        node.children[0].value = 'changed';
+        node.type = 'paragraph';
+        return h(node, 'paragraph', node.children);
+      }
+    }
+  };
+
+  var toMarkdown = unified()
+    .use(parse)
+    .use(rehype2remark, options)
+    .use(markdown);
+
+  var input = '<div>example</div>';
+  var expected = 'changed\n';
+
+  var result = toMarkdown
+    .process(input, {fragment: true})
+    .toString();
+
+  t.equal(result, expected);
+
+  var tree = toMarkdown.run(toMarkdown.parse(input, {fragment: true}));
+  t.equal(tree.children[0].type, 'paragraph');
+  t.equal(tree.children[0].children[0].value, 'changed');
+  t.end();
+});
