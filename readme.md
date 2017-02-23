@@ -49,7 +49,7 @@ This domain is established to be used for illustrative examples in documents. Yo
 
 ## API
 
-### `origin.use(rehype2remark[, destination])`
+### `origin.use(rehype2remark[, destination][, options])`
 
 Either bridge or mutate from [**rehype**][rehype] ([HAST][]) to
 [**remark**][remark] ([MDAST][]).
@@ -61,6 +61,10 @@ with the new MDAST tree, then, after running discards that tree and
 continues on running the origin processor with the original tree
 ([bridge-mode][bridge]).  Otherwise, passes the tree to further
 plug-ins (mutate-mode).
+
+###### `options`
+
+Options are passed to [`hdast-util-to-mdast`][to-mdast].
 
 ## License
 
