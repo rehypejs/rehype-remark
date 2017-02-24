@@ -13,7 +13,7 @@ test('rehype2remark()', function (t) {
       .use(parse)
       .use(rehype2remark)
       .use(markdown)
-      .process('<h2>Hello, world!</h2>')
+      .processSync('<h2>Hello, world!</h2>')
       .toString(),
     '## Hello, world!\n',
     'should mutate'
@@ -21,10 +21,10 @@ test('rehype2remark()', function (t) {
 
   t.equal(
     unified()
-      .use(parse)
+      .use(parse, {fragment: true})
       .use(rehype2remark, unified())
       .use(html)
-      .process('<h2>Hello, world!</h2>', {fragment: true})
+      .processSync('<h2>Hello, world!</h2>')
       .toString(),
     '<h2>Hello, world!</h2>',
     'should bridge'
@@ -45,7 +45,7 @@ test('handlers option', function (t) {
   };
 
   var toMarkdown = unified()
-    .use(parse)
+    .use(parse, {fragment: true})
     .use(rehype2remark, options)
     .use(markdown);
 
@@ -53,12 +53,12 @@ test('handlers option', function (t) {
   var expected = 'changed\n';
 
   var result = toMarkdown
-    .process(input, {fragment: true})
+    .processSync(input)
     .toString();
 
   t.equal(result, expected);
 
-  var tree = toMarkdown.run(toMarkdown.parse(input, {fragment: true}));
+  var tree = toMarkdown.runSync(toMarkdown.parse(input));
   t.equal(tree.children[0].type, 'paragraph');
   t.equal(tree.children[0].children[0].value, 'changed');
   t.end();

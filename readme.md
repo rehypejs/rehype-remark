@@ -18,16 +18,17 @@ Say our `example.js` looks as follows:
 
 ```js
 var unified = require('unified');
+var createStream = require('unified-stream');
 var parse = require('rehype-parse');
 var rehype2remark = require('rehype-remark');
 var stringify = require('remark-stringify');
 
-process.stdin
-  .pipe(unified())
+var processor = unified()
   .use(parse)
   .use(rehype2remark)
-  .use(stringify)
-  .pipe(process.stdout);
+  .use(stringify);
+
+process.stdin.pipe(createStream(processor)).pipe(process.stdout);
 ```
 
 Now, when running the following in a terminal (`2>/dev/null` is just to

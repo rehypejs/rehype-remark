@@ -9,7 +9,7 @@ module.exports = attacher;
  * the new MDAST tree (bridge-mode).
  * Without destination, returns the MDAST tree: further
  * plug-ins run on that tree (mutate-mode). */
-function attacher(origin, destination, options) {
+function attacher(destination, options) {
   if (destination && !destination.process) {
     options = destination;
     destination = null;
