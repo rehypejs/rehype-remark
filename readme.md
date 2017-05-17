@@ -2,7 +2,7 @@
 
 Bridge / mutate from [**rehype**][rehype] to [**remark**][remark].
 
-Tiny wrapper around [`hdast-util-to-mdast`][to-mdast].
+Tiny wrapper around [`hast-util-to-mdast`][to-mdast].
 
 ## Installation
 
@@ -65,7 +65,7 @@ plug-ins (mutate-mode).
 
 ###### `options`
 
-Options are passed to [`hdast-util-to-mdast`][to-mdast].
+Options are passed to [`hast-util-to-mdast`][to-mdast].
 
 ## License
 
