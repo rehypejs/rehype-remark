@@ -67,6 +67,15 @@ plug-ins (mutate-mode).
 
 Options are passed to [`hast-util-to-mdast`][to-mdast].
 
+## Related
+
+*   [`remark-rehype`](https://github.com/wooorm/remark-rehype)
+    — Transform markdown to HTML
+*   [`rehype-retext`](https://github.com/wooorm/rehype-retext)
+    — Transform HTML to [NLCST][]
+*   [`remark-retext`](https://github.com/wooorm/remark-retext)
+    — Transform markdown to [NLCST][]
+
 ## License
 
 [MIT][license] © [Titus Wormer][author]
@@ -100,3 +109,5 @@ Options are passed to [`hast-util-to-mdast`][to-mdast].
 [bridge]: https://github.com/wooorm/unified#bridge
 
 [to-mdast]: https://github.com/syntax-tree/hast-util-to-mdast
+
+[nlcst]: https://github.com/wooorm/nlcst
