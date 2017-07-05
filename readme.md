@@ -65,7 +65,9 @@ plug-ins (mutate-mode).
 
 ###### `options`
 
-Options are passed to [`hast-util-to-mdast`][to-mdast].
+Options are passed to [`hast-util-to-mdast`][to-mdast].  Note that
+[`options.document`][document] defaults to `true` in `rehype-remark`, as
+this plugin is mostly used with block nodes.
 
 ## Related
 
@@ -111,3 +113,5 @@ Options are passed to [`hast-util-to-mdast`][to-mdast].
 [to-mdast]: https://github.com/syntax-tree/hast-util-to-mdast
 
 [nlcst]: https://github.com/wooorm/nlcst
+
+[document]: https://github.com/syntax-tree/hast-util-to-mdast#optionsdocument

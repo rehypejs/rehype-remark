@@ -10,12 +10,20 @@ module.exports = attacher;
  * Without destination, returns the MDAST tree: further
  * plug-ins run on that tree (mutate-mode). */
 function attacher(destination, options) {
+  var settings;
+
   if (destination && !destination.process) {
-    options = destination;
+    settings = destination;
     destination = null;
   }
 
-  return destination ? bridge(destination, options) : mutate(options);
+  settings = settings || options || {};
+
+  if (settings.document === undefined || settings.document === null) {
+    settings.document = true;
+  }
+
+  return destination ? bridge(destination, settings) : mutate(settings);
 }
 
 /* Bridge-mode.  Runs the destination with the new MDAST
