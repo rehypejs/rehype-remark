@@ -9,8 +9,8 @@
     "mdast",
     "hast"
   ],
-  "repository": "https://github.com/wooorm/rehype-remark",
-  "bugs": "https://github.com/wooorm/rehype-remark/issues",
+  "repository": "rehypejs/rehype-remark",
+  "bugs": "https://github.com/rehypejs/rehype-remark/issues",
   "author": "Titus Wormer <tituswormer@gmail.com> (http://wooorm.com)",
   "contributors": [
     "Titus Wormer <tituswormer@gmail.com> (http://wooorm.com)"

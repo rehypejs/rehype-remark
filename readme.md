@@ -73,7 +73,7 @@ this plugin is mostly used with block nodes.
 
 *   [`remark-rehype`](https://github.com/wooorm/remark-rehype)
     — Transform markdown to HTML
-*   [`rehype-retext`](https://github.com/wooorm/rehype-retext)
+*   [`rehype-retext`](https://github.com/rehypejs/rehype-retext)
     — Transform HTML to [NLCST][]
 *   [`remark-retext`](https://github.com/wooorm/remark-retext)
     — Transform markdown to [NLCST][]
@@ -84,13 +84,13 @@ this plugin is mostly used with block nodes.
 
 <!-- Definitions -->
 
-[travis-badge]: https://img.shields.io/travis/wooorm/rehype-remark.svg
+[travis-badge]: https://img.shields.io/travis/rehypejs/rehype-remark.svg
 
-[travis]: https://travis-ci.org/wooorm/rehype-remark
+[travis]: https://travis-ci.org/rehypejs/rehype-remark
 
-[codecov-badge]: https://img.shields.io/codecov/c/github/wooorm/rehype-remark.svg
+[codecov-badge]: https://img.shields.io/codecov/c/github/rehypejs/rehype-remark.svg
 
-[codecov]: https://codecov.io/github/wooorm/rehype-remark
+[codecov]: https://codecov.io/github/rehypejs/rehype-remark
 
 [npm-install]: https://docs.npmjs.com/cli/install
 
@@ -104,14 +104,14 @@ this plugin is mostly used with block nodes.
 
 [remark]: https://github.com/wooorm/remark
 
-[rehype]: https://github.com/wooorm/rehype
+[rehype]: https://github.com/rehypejs/rehype
 
-[processor]: https://github.com/wooorm/unified#processor
+[processor]: https://github.com/unifiedjs/unified#processor
 
-[bridge]: https://github.com/wooorm/unified#bridge
+[bridge]: https://github.com/unifiedjs/unified#processing-between-syntaxes
 
 [to-mdast]: https://github.com/syntax-tree/hast-util-to-mdast
 
-[nlcst]: https://github.com/wooorm/nlcst
+[nlcst]: https://github.com/syntax-tree/nlcst
 
 [document]: https://github.com/syntax-tree/hast-util-to-mdast#optionsdocument
