@@ -1,8 +1,8 @@
-'use strict';
+'use strict'
 
-var hast2mdast = require('hast-util-to-mdast');
+var hast2mdast = require('hast-util-to-mdast')
 
-module.exports = attacher;
+module.exports = attacher
 
 /* Attacher.
  * If a destination is given, runs the destination with
@@ -10,38 +10,38 @@ module.exports = attacher;
  * Without destination, returns the MDAST tree: further
  * plug-ins run on that tree (mutate-mode). */
 function attacher(destination, options) {
-  var settings;
+  var settings
 
   if (destination && !destination.process) {
-    settings = destination;
-    destination = null;
+    settings = destination
+    destination = null
   }
 
-  settings = settings || options || {};
+  settings = settings || options || {}
 
   if (settings.document === undefined || settings.document === null) {
-    settings.document = true;
+    settings.document = true
   }
 
-  return destination ? bridge(destination, settings) : mutate(settings);
+  return destination ? bridge(destination, settings) : mutate(settings)
 }
 
 /* Bridge-mode.  Runs the destination with the new MDAST
  * tree. */
 function bridge(destination, options) {
-  return transformer;
+  return transformer
   function transformer(node, file, next) {
-    destination.run(hast2mdast(node, options), file, done);
+    destination.run(hast2mdast(node, options), file, done)
     function done(err) {
-      next(err);
+      next(err)
     }
   }
 }
 
 /* Mutate-mode.  Further transformers run on the MDAST tree. */
 function mutate(options) {
-  return transformer;
+  return transformer
   function transformer(node) {
-    return hast2mdast(node, options);
+    return hast2mdast(node, options)
   }
 }
