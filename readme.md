@@ -52,13 +52,13 @@ This domain is established to be used for illustrative examples in documents. Yo
 
 ### `origin.use(rehype2remark[, destination][, options])`
 
-Either bridge or mutate from [**rehype**][rehype] ([HAST][]) to
-[**remark**][remark] ([MDAST][]).
+Either bridge or mutate from [**rehype**][rehype] ([hast][]) to
+[**remark**][remark] ([mdast][]).
 
 ###### `destination`
 
 If given ([`Unified`][processor]), runs the destination processor
-with the new MDAST tree, then, after running discards that tree and
+with the new mdast tree, then, after running discards that tree and
 continues on running the origin processor with the original tree
 ([bridge-mode][bridge]).  Otherwise, passes the tree to further
 plug-ins (mutate-mode).
@@ -74,9 +74,9 @@ this plugin is mostly used with block nodes.
 *   [`remark-rehype`](https://github.com/wooorm/remark-rehype)
     — Transform markdown to HTML
 *   [`rehype-retext`](https://github.com/rehypejs/rehype-retext)
-    — Transform HTML to [NLCST][]
+    — Transform HTML to [nlcst][]
 *   [`remark-retext`](https://github.com/wooorm/remark-retext)
-    — Transform markdown to [NLCST][]
+    — Transform markdown to [nlcst][]
 
 ## Contribute
 
