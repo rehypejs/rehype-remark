@@ -1,4 +1,9 @@
-# rehype-remark [![Build Status][travis-badge]][travis] [![Coverage Status][codecov-badge]][codecov]
+# rehype-remark
+
+[![Build][build-badge]][build]
+[![Coverage][coverage-badge]][coverage]
+[![Downloads][downloads-badge]][downloads]
+[![Chat][chat-badge]][chat]
 
 Bridge / mutate from [**rehype**][rehype] to [**remark**][remark].
 
@@ -6,7 +11,7 @@ Tiny wrapper around [`hast-util-to-mdast`][to-mdast].
 
 ## Installation
 
-[npm][npm-install]:
+[npm][npm]:
 
 ```bash
 npm install rehype-remark
@@ -92,15 +97,23 @@ repository, organisation, or community you agree to abide by its terms.
 
 <!-- Definitions -->
 
-[travis-badge]: https://img.shields.io/travis/rehypejs/rehype-remark.svg
+[build-badge]: https://img.shields.io/travis/rehypejs/rehype-remark.svg
 
-[travis]: https://travis-ci.org/rehypejs/rehype-remark
+[build]: https://travis-ci.org/rehypejs/rehype-remark
 
-[codecov-badge]: https://img.shields.io/codecov/c/github/rehypejs/rehype-remark.svg
+[coverage-badge]: https://img.shields.io/codecov/c/github/rehypejs/rehype-remark.svg
 
-[codecov]: https://codecov.io/github/rehypejs/rehype-remark
+[coverage]: https://codecov.io/github/rehypejs/rehype-remark
 
-[npm-install]: https://docs.npmjs.com/cli/install
+[downloads-badge]: https://img.shields.io/npm/dm/rehype-remark.svg
+
+[downloads]: https://www.npmjs.com/package/rehype-remark
+
+[chat-badge]: https://img.shields.io/badge/join%20the%20community-on%20spectrum-7b16ff.svg
+
+[chat]: https://spectrum.chat/unified/rehype
+
+[npm]: https://docs.npmjs.com/cli/install
 
 [license]: license
 
