@@ -4,11 +4,11 @@ var hast2mdast = require('hast-util-to-mdast')
 
 module.exports = attacher
 
-/* Attacher.
- * If a destination is given, runs the destination with
- * the new MDAST tree (bridge-mode).
- * Without destination, returns the MDAST tree: further
- * plug-ins run on that tree (mutate-mode). */
+// Attacher.
+// If a destination is given, runs the destination with the new mdast tree
+// (bridge-mode).
+// Without destination, returns the mdast tree: further
+// plug-ins run on that tree (mutate-mode). */
 function attacher(destination, options) {
   var settings
 
@@ -26,8 +26,7 @@ function attacher(destination, options) {
   return destination ? bridge(destination, settings) : mutate(settings)
 }
 
-/* Bridge-mode.  Runs the destination with the new MDAST
- * tree. */
+// Bridge-mode.  Runs the destination with the new mdast tree.
 function bridge(destination, options) {
   return transformer
   function transformer(node, file, next) {
@@ -38,7 +37,7 @@ function bridge(destination, options) {
   }
 }
 
-/* Mutate-mode.  Further transformers run on the MDAST tree. */
+// Mutate-mode.  Further transformers run on the mdast tree.
 function mutate(options) {
   return transformer
   function transformer(node) {

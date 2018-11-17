@@ -30,9 +30,9 @@ test('rehype2remark()', function(t) {
     'should bridge'
   )
 
-  /* This one looks buggy, but that’s ’cause `remark-stringify`
-   * always expects a complete document.  The fact that it bugs-
-   * out thus shows that the inline-nodes are handled normally. */
+  // This one looks buggy, but that’s ’cause `remark-stringify` always expects
+  // a complete document.  The fact that it bugs-out thus shows that the
+  // inline-nodes are handled normally.
   t.equal(
     unified()
       .use(parse, {fragment: true})
