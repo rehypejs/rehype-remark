@@ -1,7 +1,7 @@
 language: node_js
 node_js:
-- lts/boron
-- node
+  - lts/dubnium
+  - node
 after_script: bash <(curl -s https://codecov.io/bash)
 deploy:
   provider: releases
@@ -9,7 +9,7 @@ deploy:
   api_key:
     secure: EZ9UfpuzdtZtKn8Ri7rKQq3isLuhCJfPFhUtWNUi3mS99VJKR2dnhRGG+5ncEIgE0PRugVPc7Cyqv8XWryEf1MmyuWCHQBTfKrBBJT1rjcqbgt0wLqcSAgMFsUGeYlOr9CdUhed8/YaKEtINVBq7oILLhHFlHuTkSDx+1uHhB/WzwF/TlJ3Ond/bNCLE+qln5nBIkLZas97VIKEy5cPLIeYGRZ4B4MOYn0tUz0ZctGzuzMa1Jtl1+2t+zaNa5kYZ8DPXRd7tAw4lay3jAckbrr/WqAFq10SzOgdt3KvSnAWxJdxL9EXMFDJd8+2MMZQSwiIvI0BYisi4HLLSMgyRcKg4IW0NL0y65SXQLeS1V5pqU7V3xBWLP5NJw80JyqHUpO3wzgYExmmS+qtU5/qtbzzbMug9IBHUx6nCCcLG+vd2HaRWDCVZHFsM7laUdgw/28Y+1yDp+Zx1s7KXsGVveUqy1moDVKCB0jV/ckinN7cLT4Kpcw5rScffR4hM1R+tgmTwQXMLykZkQtej/GKD6HMruytxaZQHVG6Q+23NF93+X8UNEwv8ORCXHwfLJjmCZA/eYJuTD9cyQC1O06Cof7mCRlDHDiMo68gfn90pB7GIsE7rq8v+rkLJQ9n7tZ4hlAchEFF6ejI8q/DYhTM4xc5eT29vRd6xnI/6gqe0A7s=
   file:
-    - "rehype-remark.js"
-    - "rehype-remark.min.js"
+    - 'rehype-remark.js'
+    - 'rehype-remark.min.js'
   on:
     tags: true
