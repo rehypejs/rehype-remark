@@ -3,21 +3,24 @@
 [![Build][build-badge]][build]
 [![Coverage][coverage-badge]][coverage]
 [![Downloads][downloads-badge]][downloads]
+[![Size][size-badge]][size]
+[![Sponsors][sponsors-badge]][collective]
+[![Backers][backers-badge]][collective]
 [![Chat][chat-badge]][chat]
 
-Bridge / mutate from [**rehype**][rehype] to [**remark**][remark].
+[**rehype**][rehype] plugin to bridge or mutate to [**remark**][remark].
 
 Tiny wrapper around [`hast-util-to-mdast`][to-mdast].
 
-## Installation
+## Install
 
-[npm][npm]:
+[npm][]:
 
-```bash
+```sh
 npm install rehype-remark
 ```
 
-## Usage
+## Use
 
 Say our `example.js` looks as follows:
 
@@ -57,39 +60,41 @@ This domain is established to be used for illustrative examples in documents. Yo
 
 ### `origin.use(rehype2remark[, destination][, options])`
 
-Either bridge or mutate from [**rehype**][rehype] ([hast][]) to
+[**rehype**][rehype] ([hast][]) plugin to bridge or mutate to
 [**remark**][remark] ([mdast][]).
 
 ###### `destination`
 
-If given ([`Unified`][processor]), runs the destination processor
-with the new mdast tree, then, after running discards that tree and
-continues on running the origin processor with the original tree
-([bridge-mode][bridge]).  Otherwise, passes the tree to further
-plug-ins (mutate-mode).
+If given ([`Unified`][processor]), runs the destination processor with the new
+**mdast** tree, then, after running discards that tree and continues on running
+the origin processor with the original **hast** tree ([bridge-mode][bridge]).
+Otherwise, passes the tree to further plugins (mutate-mode).
 
 ###### `options`
 
-Options are passed to [`hast-util-to-mdast`][to-mdast].  Note that
-[`options.document`][document] defaults to `true` in `rehype-remark`, as
-this plugin is mostly used with block nodes.
+Options are passed to [`hast-util-to-mdast`][to-mdast].
+Note that [`options.document`][document] defaults to `true` in `rehype-remark`,
+as this plugin is mostly used with blocks.
 
 ## Related
 
-*   [`remark-rehype`](https://github.com/wooorm/remark-rehype)
-    — Transform markdown to HTML
+*   [`remark-rehype`](https://github.com/remarkjs/remark-rehype)
+    — Transform Markdown ([**mdast**][mdast]) to HTML ([**hast**][hast])
 *   [`rehype-retext`](https://github.com/rehypejs/rehype-retext)
-    — Transform HTML to [nlcst][]
-*   [`remark-retext`](https://github.com/wooorm/remark-retext)
-    — Transform markdown to [nlcst][]
+    — Transform HTML ([**hast**][hast]) to natural language ([**nlcst**][nlcst])
+*   [`remark-retext`](https://github.com/remarkjs/remark-retext)
+    — Transform Markdown ([**mdast**][mdast]) to natural language
+    ([**nlcst**][nlcst])
 
 ## Contribute
 
-See [`contributing.md` in `rehypejs/rehype`][contribute] for ways to get
-started.
+See [`contributing.md`][contributing] in [`rehypejs/.github`][health] for ways
+to get started.
+See [`support.md`][support] for ways to get help.
 
-This organisation has a [Code of Conduct][coc].  By interacting with this
-repository, organisation, or community you agree to abide by its terms.
+This project has a [Code of Conduct][coc].
+By interacting with this repository, organisation, or community you agree to
+abide by its terms.
 
 ## License
 
@@ -109,23 +114,43 @@ repository, organisation, or community you agree to abide by its terms.
 
 [downloads]: https://www.npmjs.com/package/rehype-remark
 
+[size-badge]: https://img.shields.io/bundlephobia/minzip/rehype-remark.svg
+
+[size]: https://bundlephobia.com/result?p=rehype-remark
+
+[sponsors-badge]: https://opencollective.com/unified/sponsors/badge.svg
+
+[backers-badge]: https://opencollective.com/unified/backers/badge.svg
+
+[collective]: https://opencollective.com/unified
+
 [chat-badge]: https://img.shields.io/badge/join%20the%20community-on%20spectrum-7b16ff.svg
 
 [chat]: https://spectrum.chat/unified/rehype
 
 [npm]: https://docs.npmjs.com/cli/install
 
+[health]: https://github.com/rehypejs/.github
+
+[contributing]: https://github.com/rehypejs/.github/blob/master/contributing.md
+
+[support]: https://github.com/rehypejs/.github/blob/master/support.md
+
+[coc]: https://github.com/rehypejs/.github/blob/master/code-of-conduct.md
+
 [license]: license
 
 [author]: https://wooorm.com
+
+[remark]: https://github.com/remarkjs/remark
+
+[rehype]: https://github.com/rehypejs/rehype
 
 [mdast]: https://github.com/syntax-tree/mdast
 
 [hast]: https://github.com/syntax-tree/hast
 
-[remark]: https://github.com/wooorm/remark
-
-[rehype]: https://github.com/rehypejs/rehype
+[nlcst]: https://github.com/syntax-tree/nlcst
 
 [processor]: https://github.com/unifiedjs/unified#processor
 
@@ -133,10 +158,4 @@ repository, organisation, or community you agree to abide by its terms.
 
 [to-mdast]: https://github.com/syntax-tree/hast-util-to-mdast
 
-[nlcst]: https://github.com/syntax-tree/nlcst
-
 [document]: https://github.com/syntax-tree/hast-util-to-mdast#optionsdocument
-
-[contribute]: https://github.com/rehypejs/rehype/blob/master/contributing.md
-
-[coc]: https://github.com/rehypejs/rehype/blob/master/code-of-conduct.md
