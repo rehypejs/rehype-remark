@@ -1,9 +1,10 @@
 {
   "name": "rehype-remark",
   "version": "5.0.1",
-  "description": "remark support for rehype",
+  "description": "rehype plugin to transform to remark",
   "license": "MIT",
   "keywords": [
+    "unified",
     "remark",
     "rehype",
     "mdast",
