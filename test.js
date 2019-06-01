@@ -31,8 +31,9 @@ test('rehype2remark()', function(t) {
   )
 
   // This one looks buggy, but that’s ’cause `remark-stringify` always expects
-  // a complete document.  The fact that it bugs-out thus shows that the
-  // inline-nodes are handled normally.
+  // a complete document.
+  // The fact that it bugs-out thus shows that the phrasing are handled
+  // normally.
   t.equal(
     unified()
       .use(parse, {fragment: true})
