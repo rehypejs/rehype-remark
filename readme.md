@@ -76,6 +76,12 @@ Options are passed to [`hast-util-to-mdast`][to-mdast].
 Note that [`options.document`][document] defaults to `true` in `rehype-remark`,
 as this plugin is mostly used with blocks.
 
+## Security
+
+Use of `rehype-remark` can open you up to a [cross-site scripting (XSS)][xss]
+attack if the tree is unsafe.
+Use [`rehype-sanitize`][sanitize] to make the tree safe.
+
 ## Related
 
 *   [`remark-rehype`](https://github.com/remarkjs/remark-rehype)
@@ -159,3 +165,7 @@ abide by its terms.
 [to-mdast]: https://github.com/syntax-tree/hast-util-to-mdast
 
 [document]: https://github.com/syntax-tree/hast-util-to-mdast#optionsdocument
+
+[xss]: https://en.wikipedia.org/wiki/Cross-site_scripting
+
+[sanitize]: https://github.com/rehypejs/rehype-sanitize
