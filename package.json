@@ -5,10 +5,14 @@
   "license": "MIT",
   "keywords": [
     "unified",
-    "remark",
     "rehype",
-    "mdast",
-    "hast"
+    "rehype-plugin",
+    "remark",
+    "remark-plugin",
+    "html",
+    "markdown",
+    "hast",
+    "mdast"
   ],
   "repository": "rehypejs/rehype-remark",
   "bugs": "https://github.com/rehypejs/rehype-remark/issues",
