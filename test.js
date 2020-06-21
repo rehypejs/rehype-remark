@@ -7,7 +7,7 @@ var markdown = require('remark-stringify')
 var html = require('rehype-stringify')
 var rehype2remark = require('.')
 
-test('rehype2remark()', function(t) {
+test('rehype2remark()', function (t) {
   t.equal(
     unified()
       .use(parse)
@@ -59,10 +59,10 @@ test('rehype2remark()', function(t) {
   t.end()
 })
 
-test('handlers option', function(t) {
+test('handlers option', function (t) {
   var options = {
     handlers: {
-      div: function(h, node) {
+      div: function (h, node) {
         node.children[0].value = 'changed'
         node.type = 'paragraph'
         return h(node, 'paragraph', node.children)
