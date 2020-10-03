@@ -41,7 +41,7 @@ test('rehype2remark()', function (t) {
       .use(markdown)
       .processSync('<i>Hello</i>, <b>world</b>!')
       .toString(),
-    '_Hello_\n\n, \n\n**world**\n\n!\n',
+    '*Hello*\n\n, \n\n**world**\n\n!\n',
     'should support `document: false`'
   )
 
@@ -52,7 +52,7 @@ test('rehype2remark()', function (t) {
       .use(markdown)
       .processSync('<i>Hello</i>, <b>world</b>!')
       .toString(),
-    '_Hello_, **world**!\n',
+    '*Hello*, **world**!\n',
     'should default to `document: true`'
   )
 

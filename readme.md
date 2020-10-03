@@ -12,6 +12,12 @@
 
 Tiny wrapper around [`hast-util-to-mdast`][to-mdast].
 
+## Note!
+
+This plugin is ready for the new parser in remark
+([`remarkjs/remark#536`](https://github.com/remarkjs/remark/pull/536)).
+No change is needed: it works exactly the same now as it did before!
+
 ## Install
 
 [npm][]:
@@ -31,10 +37,7 @@ var parse = require('rehype-parse')
 var rehype2remark = require('rehype-remark')
 var stringify = require('remark-stringify')
 
-var processor = unified()
-  .use(parse)
-  .use(rehype2remark)
-  .use(stringify)
+var processor = unified().use(parse).use(rehype2remark).use(stringify)
 
 process.stdin.pipe(createStream(processor)).pipe(process.stdout)
 ```
@@ -51,9 +54,9 @@ curl https://example.com 2>/dev/null | node example.js
 ```markdown
 # Example Domain
 
-This domain is established to be used for illustrative examples in documents. You may use this domain in examples without prior coordination or asking for permission.
+This domain is for use in illustrative examples in documents. You may use this domain in literature without prior coordination or asking for permission.
 
-[More information...](http://www.iana.org/domains/example)
+[More information...](https://www.iana.org/domains/example)
 ```
 
 ## API
