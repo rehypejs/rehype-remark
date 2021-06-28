@@ -9,6 +9,15 @@ module.exports = attacher
 // (bridge-mode).
 // Without destination, returns the mdast tree: further plugins run on that tree
 // (mutate-mode).
+/**
+ * @typedef {import('unified').Settings} Settings
+ * @typedef {import('unified').Transformer} Transformer
+ */
+/**
+ * @param {Settings} destination
+ * @param {Settings} options
+ * @returns {Transformer}
+ */
 function attacher(destination, options) {
   var settings
 
