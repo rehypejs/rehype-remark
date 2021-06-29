@@ -48,7 +48,7 @@
   },
   "scripts": {
     "format": "remark . -qfo && prettier . -w --loglevel warn && xo --fix",
-    "build-types": "tsc -b",
+    "build-types": "tsc -b && type-coverage",
     "build-bundle": "browserify . -s rehypeRemark -o rehype-remark.js",
     "build-mangle": "browserify . -s rehypeRemark -o rehype-remark.min.js -p tinyify",
     "build": "npm run build-types && npm run build-bundle && npm run build-mangle",
@@ -81,5 +81,11 @@
     "plugins": [
       "preset-wooorm"
     ]
+  },
+  "typeCoverage": {
+    "atLeast": 100,
+    "detail": true,
+    "strict": true,
+    "ignoreCatch": true
   }
 }

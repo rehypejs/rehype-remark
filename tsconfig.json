@@ -3,7 +3,9 @@
     "*.js"
   ],
   "exclude": [
-    "test.js"
+    "test.js",
+    "rehype-remark.js",
+    "*.min.js"
   ],
   "compilerOptions": {
     "target": "ES2020",
