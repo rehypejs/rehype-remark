@@ -1,6 +1,5 @@
 'use strict'
 /**
- * @typedef {import('unified').Settings} Options
  * @typedef {import('unified').FrozenProcessor} FrozenProcessor
  * @typedef {import('unified').RunCallback} RunCallback
  * @typedef {import('unified').Transformer} Transformer
@@ -35,7 +34,10 @@ var attacher =
       /** @type {FrozenProcessor | undefined} */
       var processor
 
-      if (destination && !destination.process) {
+      if (
+        destination &&
+        !(/** @type {FrozenProcessor} */ (destination).process)
+      ) {
         // Overload: 'options' passed to first parameter
         settings = /** @type {Options} */ (destination)
         destination = null
@@ -67,7 +69,12 @@ function bridge(destination, options) {
     destination.run(hast2mdast(node, options), file, done)
     /** @type {RunCallback} */
     function done(err) {
-      next(err, node, file)
+      // Cast to proper type - remove when upstream typing of Transformer is fixed.
+      // Note: `next` only requires one parameter: https://github.com/unifiedjs/unified#function-nexterr-tree-file
+      var typefixedNext =
+        /** @type {(error: Error | null, node?: Node, file?: import('vfile').VFile) => void} */
+        (next)
+      typefixedNext(err)
     }
   }
 }
@@ -88,3 +95,37 @@ function mutate(options) {
 }
 
 module.exports = attacher
+
+// Remove the following JSDoc block when upgrading hast-util-to-mdast to version 8.
+// Import these types from hast-util-to-mdast when version 8 released.
+/**
+ * @typedef {import('mdast').Content} MdastNode
+ * @typedef {import('unist').Parent} Parent
+ * @typedef {import('hast').Element} Element
+ *
+ * @typedef Context
+ * @property {Object.<string, Element>} nodeById
+ * @property {boolean} baseFound
+ * @property {string|null} frozenBaseUrl
+ * @property {boolean} wrapText
+ * @property {number} qNesting
+ * @property {Object.<string, Handle>} handlers
+ * @property {boolean|undefined} document
+ * @property {string} checked
+ * @property {string} unchecked
+ * @property {Array.<string>} quotes
+ *
+ * @typedef {(node: Node, type: string, props?: Properties, children?: string|Array.<MdastNode>) => MdastNode} HWithProps
+ * @typedef {(node: Node, type: string, children?: string|Array.<MdastNode>) => MdastNode} HWithoutProps
+ * @typedef {Record<string, unknown>} Properties*
+ * @typedef {HWithProps & HWithoutProps & Context} H
+ * @typedef {(h: H, node: any, parent?: Parent) => MdastNode|Array.<MdastNode>|void} Handle
+ *
+ * @typedef Options
+ * @property {Object.<string, Handle>} [handlers]
+ * @property {boolean} [document]
+ * @property {boolean} [newlines=false]
+ * @property {string} [checked='[x]']
+ * @property {string} [unchecked='[ ]']
+ * @property {Array.<string>} [quotes=['"']]
+ */
