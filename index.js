@@ -1,15 +1,13 @@
 'use strict'
 /**
+ * @typedef {import('unified').Settings} Options
  * @typedef {import('unified').FrozenProcessor} FrozenProcessor
  * @typedef {import('unified').RunCallback} RunCallback
- * @typedef {import('unified').Settings} Settings
  * @typedef {import('unified').Transformer} Transformer
  * @typedef {import('unist').Node} Node
  */
 
 var hast2mdast = require('hast-util-to-mdast')
-
-module.exports = attacher
 
 /**
  * Attacher.
@@ -18,40 +16,59 @@ module.exports = attacher
  * tree (bridge-mode). Without destination, returns the mdast tree: further
  * plugins run on that tree (mutate-mode).
  *
- * @param {FrozenProcessor} destination
- * @param {Settings} options
- * @returns {Transformer}
  */
-function attacher(destination, options) {
-  /** @type {Partial<FrozenProcessor> & {document?: boolean | null}} */
-  var settings
+const attacher =
+  /**
+   * @type {(
+   *   ((destination?: FrozenProcessor, options?: Options) => Transformer) &
+   *   ((options?: Options) => Transformer)
+   * )}
+   */
+  (
+    /**
+     * @param {FrozenProcessor | Options} [destination]
+     * @param {Options} [options]
+     */
+    function (destination, options) {
+      /** @type {Options | undefined} */
+      var settings
+      /** @type {FrozenProcessor | undefined} */
+      var processor
 
-  if (destination && !destination.process) {
-    settings = destination
-    destination = null
-  }
+      if (destination && !destination.process) {
+        // Overload: 'options' passed to first parameter
+        settings = /** @type {Options} */ (destination)
+        destination = null
+      } else {
+        processor = /** @type {FrozenProcessor | undefined} */ (destination)
+      }
 
-  settings = settings || options || {}
+      settings = settings || options || {}
 
-  if (settings.document === undefined || settings.document === null) {
-    settings.document = true
-  }
+      if (settings.document === undefined || settings.document === null) {
+        settings.document = true
+      }
 
-  return destination ? bridge(destination, settings) : mutate(settings)
-}
+      return processor ? bridge(processor, settings) : mutate(settings)
+    }
+  )
 
 /**
  * Bridge-mode.
  * Runs the destination with the new mdast tree.
  * @param {FrozenProcessor} destination
- * @param {Settings} options
+ * @param {Options} [options]
  * @returns {Transformer}
  */
 function bridge(destination, options) {
   return transformer
   /** @type {Transformer} */
-  function transformer(node, file) {
-    destination.run(hast2mdast(node, options), file)
+  function transformer(node, file, next) {
+    destination.run(hast2mdast(node, options), file, done)
+    /** @type {RunCallback} */
+    function done(err) {
+      next(err, node, file)
+    }
   }
 }
 
@@ -59,7 +76,7 @@ function bridge(destination, options) {
  * Mutate-mode.
  * Further transformers run on the mdast tree.
  *
- * @param {Settings} options
+ * @param {Options} [options]
  * @returns {Transformer}
  */
 function mutate(options) {
@@ -69,3 +86,5 @@ function mutate(options) {
     return hast2mdast(node, options)
   }
 }
+
+module.exports = attacher
