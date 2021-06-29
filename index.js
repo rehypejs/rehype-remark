@@ -17,7 +17,7 @@ var hast2mdast = require('hast-util-to-mdast')
  * plugins run on that tree (mutate-mode).
  *
  */
-const attacher =
+var attacher =
   /**
    * @type {(
    *   ((destination?: FrozenProcessor, options?: Options) => Transformer) &
