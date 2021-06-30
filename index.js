@@ -16,23 +16,22 @@ var hast2mdast = require('hast-util-to-mdast')
  * tree (bridge-mode). Without destination, returns the mdast tree: further
  * plugins run on that tree (mutate-mode).
  *
+ * @param destination Optional unified processor.
+ * @param options Options passed to `hast-util-to-mdast`.
  */
-var attacher =
+module.exports =
   /**
-   * @type {(
-   *   ((destination: Processor, options?: Options) => Transformer) &
-   *   ((options?: Options) => Transformer)
-   * )}
+   * @type {import('unified').Plugin<[Options?]|[Processor, Options?]>}
    */
   (
     /**
-     * @param {Processor | Options} [destination]
+     * @param {Processor|Options} [destination]
      * @param {Options} [options]
      */
     function (destination, options) {
-      /** @type {Options | undefined} */
+      /** @type {Options|undefined} */
       var settings
-      /** @type {Processor | undefined} */
+      /** @type {Processor|undefined} */
       var processor
 
       if (typeof destination === 'function') {
@@ -85,8 +84,6 @@ function mutate(options) {
     return hast2mdast(node, options)
   }
 }
-
-module.exports = attacher
 
 // Remove the following JSDoc block when upgrading hast-util-to-mdast to version 8.
 // Import these types from hast-util-to-mdast when version 8 released.

@@ -29,7 +29,6 @@ test('rehype2remark()', function (t) {
   t.equal(
     unified()
       .use(parse, {fragment: true})
-      // @ts-expect-error: todo open issue.
       .use(rehype2remark, unified())
       .use(html)
       .processSync('<h2>Hello, world!</h2>')
