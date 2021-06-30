@@ -6,3 +6,5 @@ node_modules/
 rehype-remark.js
 rehype-remark.min.js
 yarn.lock
+*.d.ts
+
