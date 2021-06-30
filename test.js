@@ -1,5 +1,12 @@
 'use strict'
 
+/**
+ * @typedef {import('./index.js').Options} Options
+ * @typedef {import('./index.js').Handle} Handle
+ * @typedef {import('hast').Element} Element
+ * @typedef {import('hast').Text} Text
+ */
+
 var test = require('tape')
 var unified = require('unified')
 var parse = require('rehype-parse')
@@ -22,6 +29,7 @@ test('rehype2remark()', function (t) {
   t.equal(
     unified()
       .use(parse, {fragment: true})
+      // @ts-expect-error: todo open issue.
       .use(rehype2remark, unified())
       .use(html)
       .processSync('<h2>Hello, world!</h2>')
@@ -60,12 +68,19 @@ test('rehype2remark()', function (t) {
 })
 
 test('handlers option', function (t) {
+  /** @type {Options} */
   var options = {
     handlers: {
+      /**
+       * @type {Handle}
+       * @param {Element & {tagName: 'div'}} node
+       */
       div: function (h, node) {
-        node.children[0].value = 'changed'
-        node.type = 'paragraph'
-        return h(node, 'paragraph', node.children)
+        /** @type {Text} */
+        // @ts-expect-error: there’s one text child.
+        const child = node.children[0]
+        child.value = 'changed'
+        return h(node, 'paragraph', child)
       }
     }
   }
