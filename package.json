@@ -30,8 +30,10 @@
     "@types/unist": "^2.0.0",
     "hast-util-to-mdast": "^7.0.0"
   },
+  "types": "index.d.ts",
   "files": [
-    "index.js"
+    "index.js",
+    "index.d.ts"
   ],
   "devDependencies": {
     "@types/tape": "^4.0.0",
