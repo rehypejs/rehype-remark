@@ -25,12 +25,16 @@
     "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)"
   ],
   "dependencies": {
+    "@types/hast": "^2.0.0",
+    "@types/mdast": "^3.0.0",
+    "@types/unist": "^2.0.0",
     "hast-util-to-mdast": "^7.0.0"
   },
   "files": [
     "index.js"
   ],
   "devDependencies": {
+    "@types/tape": "^4.0.0",
     "browserify": "^17.0.0",
     "nyc": "^15.0.0",
     "prettier": "^2.0.0",
@@ -39,6 +43,7 @@
     "remark-cli": "^9.0.0",
     "remark-preset-wooorm": "^8.0.0",
     "remark-stringify": "^9.0.0",
+    "rimraf": "^3.0.0",
     "tape": "^5.0.0",
     "tinyify": "^3.0.0",
     "type-coverage": "^2.0.0",
@@ -48,7 +53,7 @@
   },
   "scripts": {
     "format": "remark . -qfo && prettier . -w --loglevel warn && xo --fix",
-    "build-types": "tsc -b && type-coverage",
+    "build-types": "rimraf \"*.d.ts\" && tsc && type-coverage",
     "build-bundle": "browserify . -s rehypeRemark -o rehype-remark.js",
     "build-mangle": "browserify . -s rehypeRemark -o rehype-remark.min.js -p tinyify",
     "build": "npm run build-types && npm run build-bundle && npm run build-mangle",
@@ -86,6 +91,9 @@
     "atLeast": 100,
     "detail": true,
     "strict": true,
-    "ignoreCatch": true
+    "ignoreCatch": true,
+    "ignoreFiles": [
+      "index.d.ts"
+    ]
   }
 }

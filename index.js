@@ -1,6 +1,7 @@
 'use strict'
+
 /**
- * @typedef {import('unified').FrozenProcessor} FrozenProcessor
+ * @typedef {import('unified').Processor} Processor
  * @typedef {import('unified').RunCallback} RunCallback
  * @typedef {import('unified').Transformer} Transformer
  * @typedef {import('unist').Node} Node
@@ -15,40 +16,33 @@ var hast2mdast = require('hast-util-to-mdast')
  * tree (bridge-mode). Without destination, returns the mdast tree: further
  * plugins run on that tree (mutate-mode).
  *
+ * @param destination Optional unified processor.
+ * @param options Options passed to `hast-util-to-mdast`.
  */
-var attacher =
+module.exports =
   /**
-   * @type {(
-   *   ((destination?: FrozenProcessor, options?: Options) => Transformer) &
-   *   ((options?: Options) => Transformer)
-   * )}
+   * @type {import('unified').Plugin<[Options?]|[Processor, Options?]>}
    */
   (
     /**
-     * @param {FrozenProcessor | Options} [destination]
+     * @param {Processor|Options} [destination]
      * @param {Options} [options]
      */
     function (destination, options) {
-      /** @type {Options | undefined} */
+      /** @type {Options|undefined} */
       var settings
-      /** @type {FrozenProcessor | undefined} */
+      /** @type {Processor|undefined} */
       var processor
 
-      if (
-        destination &&
-        !(/** @type {FrozenProcessor} */ (destination).process)
-      ) {
-        // Overload: 'options' passed to first parameter
-        settings = /** @type {Options} */ (destination)
-        destination = null
+      if (typeof destination === 'function') {
+        processor = destination
+        settings = options || {}
       } else {
-        processor = /** @type {FrozenProcessor | undefined} */ (destination)
+        settings = destination || {}
       }
 
-      settings = settings || options || {}
-
       if (settings.document === undefined || settings.document === null) {
-        settings.document = true
+        settings = Object.assign({}, settings, {document: true})
       }
 
       return processor ? bridge(processor, settings) : mutate(settings)
@@ -58,7 +52,7 @@ var attacher =
 /**
  * Bridge-mode.
  * Runs the destination with the new mdast tree.
- * @param {FrozenProcessor} destination
+ * @param {Processor} destination
  * @param {Options} [options]
  * @returns {Transformer}
  */
@@ -69,12 +63,9 @@ function bridge(destination, options) {
     destination.run(hast2mdast(node, options), file, done)
     /** @type {RunCallback} */
     function done(err) {
-      // Cast to proper type - remove when upstream typing of Transformer is fixed.
-      // Note: `next` only requires one parameter: https://github.com/unifiedjs/unified#function-nexterr-tree-file
-      var typefixedNext =
-        /** @type {(error: Error | null, node?: Node, file?: import('vfile').VFile) => void} */
-        (next)
-      typefixedNext(err)
+      // @ts-expect-error: `unified` should accept 1 arg for next.
+      // See: <https://github.com/unifiedjs/unified/pull/141#issuecomment-871239574>
+      next(err)
     }
   }
 }
@@ -93,8 +84,6 @@ function mutate(options) {
     return hast2mdast(node, options)
   }
 }
-
-module.exports = attacher
 
 // Remove the following JSDoc block when upgrading hast-util-to-mdast to version 8.
 // Import these types from hast-util-to-mdast when version 8 released.
