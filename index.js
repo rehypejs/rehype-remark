@@ -1,5 +1,3 @@
-'use strict'
-
 /**
  * @typedef {import('unified').Processor} Processor
  * @typedef {import('unified').RunCallback} RunCallback
@@ -7,7 +5,7 @@
  * @typedef {import('unist').Node} Node
  */
 
-import hast2mdast from 'hast-util-to-mdast'
+import {toMdast} from 'hast-util-to-mdast'
 
 /**
  * Attacher.
@@ -62,7 +60,7 @@ function bridge(destination, options) {
   return transformer
   /** @type {Transformer} */
   function transformer(node, file, next) {
-    destination.run(hast2mdast(node, options), file, done)
+    destination.run(toMdast(node, options), file, done)
     /** @type {RunCallback} */
     function done(error) {
       // @ts-expect-error: `unified` should accept 1 arg for next.
@@ -83,7 +81,7 @@ function mutate(options) {
   return transformer
   /** @param {Node} node */
   function transformer(node) {
-    return hast2mdast(node, options)
+    return toMdast(node, options)
   }
 }
 
