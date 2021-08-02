@@ -1,5 +1,2 @@
 coverage/
-rehype-remark.js
-rehype-remark.min.js
-*.json
 *.md
