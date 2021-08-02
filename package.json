@@ -27,14 +27,16 @@
   "sideEffects": false,
   "type": "module",
   "main": "index.js",
+  "types": "index.d.ts",
   "files": [
+    "index.d.ts",
     "index.js"
   ],
   "dependencies": {
     "@types/hast": "^2.0.0",
     "@types/mdast": "^3.0.0",
-    "@types/unist": "^2.0.0",
-    "hast-util-to-mdast": "^8.0.0"
+    "hast-util-to-mdast": "^8.0.0",
+    "unified": "^10.0.0"
   },
   "devDependencies": {
     "@types/tape": "^4.0.0",
@@ -49,15 +51,14 @@
     "tape": "^5.0.0",
     "type-coverage": "^2.0.0",
     "typescript": "^4.0.0",
-    "unified": "^10.0.0",
     "xo": "^0.38.0"
   },
   "scripts": {
+    "build": "rimraf \"*.d.ts\" && tsc && type-coverage",
     "format": "remark . -qfo && prettier . -w --loglevel warn && xo --fix",
-    "build-types": "rimraf \"*.d.ts\" && tsc && type-coverage",
     "test-api": "node --conditions development test.js",
     "test-coverage": "c8 --check-coverage --branches 100 --functions 100 --lines 100 --statements 100 --reporter lcov npm run test-api",
-    "test": "npm run format && npm run test-coverage"
+    "test": "npm run build && npm run format && npm run test-coverage"
   },
   "prettier": {
     "tabWidth": 2,
@@ -80,8 +81,10 @@
     "detail": true,
     "strict": true,
     "ignoreCatch": true,
+    "#": "needed `any`s",
     "ignoreFiles": [
-      "index.d.ts"
+      "index.d.ts",
+      "index.js"
     ]
   }
 }

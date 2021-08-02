@@ -1,25 +1,31 @@
 /**
- * @typedef {import('unified').Processor} Processor
- * @typedef {import('unified').RunCallback} RunCallback
- * @typedef {import('unified').Transformer} Transformer
- * @typedef {import('unist').Node} Node
+ * @typedef {import('hast-util-to-mdast').Options} Options
+ * @typedef {import('hast-util-to-mdast').Context} Context
+ * @typedef {import('hast-util-to-mdast').H} H
+ * @typedef {import('hast-util-to-mdast').Handle} Handle
+ * @typedef {import('hast').Root} HastRoot
+ * @typedef {import('mdast').Root} MdastRoot
+ * @typedef {import('unified').Processor<any, any, any, any>} Processor
  */
 
 import {toMdast} from 'hast-util-to-mdast'
 
 /**
- * Attacher.
+ * Plugin to bridge or mutate to rehype.
  *
  * If a destination is given, runs the destination with the new mdast
- * tree (bridge-mode). Without destination, returns the mdast tree: further
- * plugins run on that tree (mutate-mode).
+ * tree (bridge-mode).
+ * Without destination, returns the mdast tree: further plugins run on that
+ * tree (mutate-mode).
  *
- * @param destination Optional unified processor.
- * @param options Options passed to `hast-util-to-mdast`.
+ * @param destination
+ *   Optional unified processor.
+ * @param options
+ *   Options passed to `hast-util-to-mdast`.
  */
 const rehypeRemark =
   /**
-   * @type {import('unified').Plugin<[Options?]|[Processor, Options?]>}
+   * @type {(import('unified').Plugin<[Processor, Options?], HastRoot> & import('unified').Plugin<[Options?]|void[], HastRoot, MdastRoot>)}
    */
   (
     /**
@@ -52,21 +58,14 @@ export default rehypeRemark
 /**
  * Bridge-mode.
  * Runs the destination with the new mdast tree.
- * @param {Processor} destination
- * @param {Options} [options]
- * @returns {Transformer}
+ *
+ * @type {import('unified').Plugin<[Processor, Options?], HastRoot>}
  */
 function bridge(destination, options) {
-  return transformer
-  /** @type {Transformer} */
-  function transformer(node, file, next) {
-    destination.run(toMdast(node, options), file, done)
-    /** @type {RunCallback} */
-    function done(error) {
-      // @ts-expect-error: `unified` should accept 1 arg for next.
-      // See: <https://github.com/unifiedjs/unified/pull/141#issuecomment-871239574>
+  return (node, file, next) => {
+    destination.run(toMdast(node, options), file, (error) => {
       next(error)
-    }
+    })
   }
 }
 
@@ -74,47 +73,11 @@ function bridge(destination, options) {
  * Mutate-mode.
  * Further transformers run on the mdast tree.
  *
- * @param {Options} [options]
- * @returns {Transformer}
+ * @type {import('unified').Plugin<[Options?]|void[], HastRoot, MdastRoot>}
  */
-function mutate(options) {
-  return transformer
-  /** @param {Node} node */
-  function transformer(node) {
-    return toMdast(node, options)
+function mutate(options = {}) {
+  return (node) => {
+    const result = /** @type {MdastRoot} */ (toMdast(node, options))
+    return result
   }
 }
-
-// Remove the following JSDoc block when upgrading hast-util-to-mdast to version 8.
-// Import these types from hast-util-to-mdast when version 8 released.
-/**
- * @typedef {import('mdast').Content} MdastNode
- * @typedef {import('unist').Parent} Parent
- * @typedef {import('hast').Element} Element
- *
- * @typedef Context
- * @property {Object.<string, Element>} nodeById
- * @property {boolean} baseFound
- * @property {string|null} frozenBaseUrl
- * @property {boolean} wrapText
- * @property {number} qNesting
- * @property {Object.<string, Handle>} handlers
- * @property {boolean|undefined} document
- * @property {string} checked
- * @property {string} unchecked
- * @property {Array.<string>} quotes
- *
- * @typedef {(node: Node, type: string, props?: Properties, children?: string|Array.<MdastNode>) => MdastNode} HWithProps
- * @typedef {(node: Node, type: string, children?: string|Array.<MdastNode>) => MdastNode} HWithoutProps
- * @typedef {Record<string, unknown>} Properties*
- * @typedef {HWithProps & HWithoutProps & Context} H
- * @typedef {(h: H, node: any, parent?: Parent) => MdastNode|Array.<MdastNode>|void} Handle
- *
- * @typedef Options
- * @property {Object.<string, Handle>} [handlers]
- * @property {boolean} [document]
- * @property {boolean} [newlines=false]
- * @property {string} [checked='[x]']
- * @property {string} [unchecked='[ ]']
- * @property {Array.<string>} [quotes=['"']]
- */

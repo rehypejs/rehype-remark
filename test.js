@@ -3,8 +3,10 @@
  * @typedef {import('./index.js').Handle} Handle
  * @typedef {import('hast').Element} Element
  * @typedef {import('hast').Text} Text
+ * @typedef {import('mdast').Root} MdastRoot
  */
 
+import assert from 'node:assert'
 import test from 'tape'
 import {unified} from 'unified'
 import rehypeParse from 'rehype-parse'
@@ -24,10 +26,13 @@ test('rehypeRemark', (t) => {
     'should mutate'
   )
 
+  const proc = unified().use(remarkStringify)
+
   t.equal(
     unified()
       .use(rehypeParse, {fragment: true})
-      .use(rehypeRemark, unified())
+      // @ts-expect-error: something is going wrong.
+      .use(rehypeRemark, proc)
       .use(rehypeStringify)
       .processSync('<h2>Hello, world!</h2>')
       .toString(),
@@ -65,26 +70,22 @@ test('rehypeRemark', (t) => {
 })
 
 test('handlers option', (t) => {
-  /** @type {Options} */
-  const options = {
-    handlers: {
-      /**
-       * @type {Handle}
-       * @param {Element & {tagName: 'div'}} node
-       */
-      div(h, node) {
-        /** @type {Text} */
-        // @ts-expect-error: there’s one text child.
-        const child = node.children[0]
-        child.value = 'changed'
-        return h(node, 'paragraph', child)
-      }
-    }
-  }
-
   const toMarkdown = unified()
     .use(rehypeParse, {fragment: true})
-    .use(rehypeRemark, options)
+    .use(rehypeRemark, {
+      handlers: {
+        /**
+         * @type {Handle}
+         * @param {Element & {tagName: 'div'}} node
+         */
+        div(h, node) {
+          const head = node.children[0]
+          if (head && head.type === 'text') {
+            return h(node, 'paragraph', {type: 'text', value: 'changed'})
+          }
+        }
+      }
+    })
     .use(remarkStringify)
 
   const input = '<div>example</div>'
@@ -94,8 +95,14 @@ test('handlers option', (t) => {
 
   t.equal(result, expected)
 
-  const tree = toMarkdown.runSync(toMarkdown.parse(input))
-  t.equal(tree.children[0].type, 'paragraph')
-  t.equal(tree.children[0].children[0].value, 'changed')
+  const tree = /** @type {MdastRoot} */ (
+    toMarkdown.runSync(toMarkdown.parse(input))
+  )
+  const head = tree.children[0]
+  t.equal(head && head.type, 'paragraph')
+  assert(head.type === 'paragraph')
+  const headHead = head.children[0]
+  assert(headHead.type === 'text')
+  t.equal(headHead.value, 'changed')
   t.end()
 })
