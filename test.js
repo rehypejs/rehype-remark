@@ -6,18 +6,18 @@
  */
 
 import test from 'tape'
-import unified from 'unified'
-import parse from 'rehype-parse'
-import markdown from 'remark-stringify'
-import html from 'rehype-stringify'
-import rehype2remark from './index.js'
+import {unified} from 'unified'
+import rehypeParse from 'rehype-parse'
+import remarkStringify from 'remark-stringify'
+import rehypeStringify from 'rehype-stringify'
+import rehypeRemark from './index.js'
 
-test('rehype2remark()', function (t) {
+test('rehypeRemark', function (t) {
   t.equal(
     unified()
-      .use(parse)
-      .use(rehype2remark)
-      .use(markdown)
+      .use(rehypeParse)
+      .use(rehypeRemark)
+      .use(remarkStringify)
       .processSync('<h2>Hello, world!</h2>')
       .toString(),
     '## Hello, world!\n',
@@ -26,9 +26,9 @@ test('rehype2remark()', function (t) {
 
   t.equal(
     unified()
-      .use(parse, {fragment: true})
-      .use(rehype2remark, unified())
-      .use(html)
+      .use(rehypeParse, {fragment: true})
+      .use(rehypeRemark, unified())
+      .use(rehypeStringify)
       .processSync('<h2>Hello, world!</h2>')
       .toString(),
     '<h2>Hello, world!</h2>',
@@ -41,9 +41,9 @@ test('rehype2remark()', function (t) {
   // normally.
   t.equal(
     unified()
-      .use(parse, {fragment: true})
-      .use(rehype2remark, {document: false})
-      .use(markdown)
+      .use(rehypeParse, {fragment: true})
+      .use(rehypeRemark, {document: false})
+      .use(remarkStringify)
       .processSync('<i>Hello</i>, <b>world</b>!')
       .toString(),
     '*Hello*\n\n, \n\n**world**\n\n!\n',
@@ -52,9 +52,9 @@ test('rehype2remark()', function (t) {
 
   t.equal(
     unified()
-      .use(parse, {fragment: true})
-      .use(rehype2remark)
-      .use(markdown)
+      .use(rehypeParse, {fragment: true})
+      .use(rehypeRemark)
+      .use(remarkStringify)
       .processSync('<i>Hello</i>, <b>world</b>!')
       .toString(),
     '*Hello*, **world**!\n',
@@ -83,9 +83,9 @@ test('handlers option', function (t) {
   }
 
   var toMarkdown = unified()
-    .use(parse, {fragment: true})
-    .use(rehype2remark, options)
-    .use(markdown)
+    .use(rehypeParse, {fragment: true})
+    .use(rehypeRemark, options)
+    .use(remarkStringify)
 
   var input = '<div>example</div>'
   var expected = 'changed\n'
