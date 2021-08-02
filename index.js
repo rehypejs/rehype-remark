@@ -28,9 +28,9 @@ const rehypeRemark =
      */
     function (destination, options) {
       /** @type {Options|undefined} */
-      var settings
+      let settings
       /** @type {Processor|undefined} */
-      var processor
+      let processor
 
       if (typeof destination === 'function') {
         processor = destination

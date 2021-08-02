@@ -12,7 +12,7 @@ import remarkStringify from 'remark-stringify'
 import rehypeStringify from 'rehype-stringify'
 import rehypeRemark from './index.js'
 
-test('rehypeRemark', function (t) {
+test('rehypeRemark', (t) => {
   t.equal(
     unified()
       .use(rehypeParse)
@@ -64,9 +64,9 @@ test('rehypeRemark', function (t) {
   t.end()
 })
 
-test('handlers option', function (t) {
+test('handlers option', (t) => {
   /** @type {Options} */
-  var options = {
+  const options = {
     handlers: {
       /**
        * @type {Handle}
@@ -82,19 +82,19 @@ test('handlers option', function (t) {
     }
   }
 
-  var toMarkdown = unified()
+  const toMarkdown = unified()
     .use(rehypeParse, {fragment: true})
     .use(rehypeRemark, options)
     .use(remarkStringify)
 
-  var input = '<div>example</div>'
-  var expected = 'changed\n'
+  const input = '<div>example</div>'
+  const expected = 'changed\n'
 
-  var result = toMarkdown.processSync(input).toString()
+  const result = toMarkdown.processSync(input).toString()
 
   t.equal(result, expected)
 
-  var tree = toMarkdown.runSync(toMarkdown.parse(input))
+  const tree = toMarkdown.runSync(toMarkdown.parse(input))
   t.equal(tree.children[0].type, 'paragraph')
   t.equal(tree.children[0].children[0].value, 'changed')
   t.end()
