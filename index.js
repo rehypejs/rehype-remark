@@ -7,7 +7,7 @@
  * @typedef {import('unist').Node} Node
  */
 
-var hast2mdast = require('hast-util-to-mdast')
+import hast2mdast from 'hast-util-to-mdast'
 
 /**
  * Attacher.
@@ -19,7 +19,7 @@ var hast2mdast = require('hast-util-to-mdast')
  * @param destination Optional unified processor.
  * @param options Options passed to `hast-util-to-mdast`.
  */
-module.exports =
+const rehypeRemark =
   /**
    * @type {import('unified').Plugin<[Options?]|[Processor, Options?]>}
    */
@@ -49,6 +49,8 @@ module.exports =
     }
   )
 
+export default rehypeRemark
+
 /**
  * Bridge-mode.
  * Runs the destination with the new mdast tree.
@@ -62,10 +64,10 @@ function bridge(destination, options) {
   function transformer(node, file, next) {
     destination.run(hast2mdast(node, options), file, done)
     /** @type {RunCallback} */
-    function done(err) {
+    function done(error) {
       // @ts-expect-error: `unified` should accept 1 arg for next.
       // See: <https://github.com/unifiedjs/unified/pull/141#issuecomment-871239574>
-      next(err)
+      next(error)
     }
   }
 }

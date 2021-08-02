@@ -1,5 +1,3 @@
-'use strict'
-
 /**
  * @typedef {import('./index.js').Options} Options
  * @typedef {import('./index.js').Handle} Handle
@@ -7,12 +5,12 @@
  * @typedef {import('hast').Text} Text
  */
 
-var test = require('tape')
-var unified = require('unified')
-var parse = require('rehype-parse')
-var markdown = require('remark-stringify')
-var html = require('rehype-stringify')
-var rehype2remark = require('.')
+import test from 'tape'
+import unified from 'unified'
+import parse from 'rehype-parse'
+import markdown from 'remark-stringify'
+import html from 'rehype-stringify'
+import rehype2remark from './index.js'
 
 test('rehype2remark()', function (t) {
   t.equal(
@@ -74,7 +72,7 @@ test('handlers option', function (t) {
        * @type {Handle}
        * @param {Element & {tagName: 'div'}} node
        */
-      div: function (h, node) {
+      div(h, node) {
         /** @type {Text} */
         // @ts-expect-error: there’s one text child.
         const child = node.children[0]
