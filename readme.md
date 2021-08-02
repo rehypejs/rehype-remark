@@ -12,13 +12,10 @@
 
 Tiny wrapper around [`hast-util-to-mdast`][to-mdast].
 
-## Note!
-
-This plugin is ready for the new parser in remark
-([`remarkjs/remark#536`](https://github.com/remarkjs/remark/pull/536)).
-No change is needed: it works exactly the same now as it did before!
-
 ## Install
+
+This package is [ESM only](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c):
+Node 12+ is needed to use it and it must be `import`ed instead of `require`d.
 
 [npm][]:
 
@@ -31,15 +28,18 @@ npm install rehype-remark
 Say our `example.js` looks as follows:
 
 ```js
-var unified = require('unified')
-var createStream = require('unified-stream')
-var parse = require('rehype-parse')
-var rehype2remark = require('rehype-remark')
-var stringify = require('remark-stringify')
+import {unified} from 'unified'
+import {stream} from 'unified-stream'
+import rehypeParse from 'rehype-parse'
+import rehypeRemark from 'rehype-remark'
+import remarkStringify from 'remark-stringify'
 
-var processor = unified().use(parse).use(rehype2remark).use(stringify)
+const processor = unified()
+  .use(rehypeParse)
+  .use(rehypeRemark)
+  .use(remarkStringify)
 
-process.stdin.pipe(createStream(processor)).pipe(process.stdout)
+process.stdin.pipe(stream(processor)).pipe(process.stdout)
 ```
 
 Now, when running the following in a terminal (`2>/dev/null` is just to
@@ -61,7 +61,10 @@ This domain is for use in illustrative examples in documents. You may use this d
 
 ## API
 
-### `origin.use(rehype2remark[, destination][, options])`
+This package exports no identifiers.
+The default export is `rehypeRemark`.
+
+### `unified().use(rehypeRemark[, destination][, options])`
 
 [**rehype**][rehype] ([hast][]) plugin to bridge or mutate to
 [**remark**][remark] ([mdast][]).
