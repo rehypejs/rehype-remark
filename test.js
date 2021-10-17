@@ -12,11 +12,11 @@ import {unified} from 'unified'
 import rehypeParse from 'rehype-parse'
 import remarkStringify from 'remark-stringify'
 import rehypeStringify from 'rehype-stringify'
-import rehypeRemark, {all, one} from './index.js'
+import rehypeRemark, {defaultHandlers, all, one} from './index.js'
 
 test('exports', (t) => {
+  t.assert(defaultHandlers, 'should export `defaultHandlers`')
   t.assert(one, 'should export `one`')
-
   t.assert(all, 'should export `all`')
 
   t.end()
