@@ -10,6 +10,8 @@
 
 import {toMdast} from 'hast-util-to-mdast'
 
+export {defaultHandlers, all, one} from 'hast-util-to-mdast'
+
 /**
  * Plugin to bridge or mutate to rehype.
  *
