@@ -35,7 +35,7 @@
   "dependencies": {
     "@types/hast": "^2.0.0",
     "@types/mdast": "^3.0.0",
-    "hast-util-to-mdast": "^8.0.0",
+    "hast-util-to-mdast": "^8.3.0",
     "unified": "^10.0.0"
   },
   "devDependencies": {
