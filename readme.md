@@ -61,7 +61,7 @@ This domain is for use in illustrative examples in documents. You may use this d
 
 ## API
 
-This package exports no identifiers.
+This package exports the following identifiers: `defaultHandlers`, `one`, `all`.
 The default export is `rehypeRemark`.
 
 ### `unified().use(rehypeRemark[, destination][, options])`
@@ -81,6 +81,21 @@ Otherwise, passes the tree to further plugins (mutate-mode).
 Options are passed to [`hast-util-to-mdast`][to-mdast].
 Note that [`options.document`][document] defaults to `true` in `rehype-remark`,
 as this plugin is mostly used with blocks.
+
+### `defaultHandlers`
+
+Re-exported [`defaultHandlers`](https://github.com/syntax-tree/hast-util-to-mdast#defaulthandlers)
+from `hast-util-to-mdast`.
+
+### `one`
+
+Re-exported [`one`](https://github.com/syntax-tree/hast-util-to-mdast#one) from
+`hast-util-to-mdast`.
+
+### `all`
+
+Re-exported [`all`](https://github.com/syntax-tree/hast-util-to-mdast#all) from
+`hast-util-to-mdast`.
 
 ## Security
 
