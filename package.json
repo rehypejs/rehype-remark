@@ -84,7 +84,8 @@
     "#": "needed `any`s",
     "ignoreFiles": [
       "lib/index.d.ts",
-      "lib/index.js"
+      "lib/index.js",
+      "index.d.ts"
     ]
   }
 }
