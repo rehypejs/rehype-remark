@@ -1,6 +1,6 @@
 {
   "name": "rehype-remark",
-  "version": "9.1.1",
+  "version": "9.1.2",
   "description": "rehype plugin to transform to remark",
   "license": "MIT",
   "keywords": [
