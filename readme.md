@@ -81,17 +81,17 @@ In Node.js (version 12.20+, 14.14+, or 16.0+), install with [npm][]:
 npm install rehype-remark
 ```
 
-In Deno with [Skypack][]:
+In Deno with [`esm.sh`][esmsh]:
 
 ```js
-import rehypeRemark from 'https://cdn.skypack.dev/rehype-remark@9?dts'
+import rehypeRemark from 'https://esm.sh/rehype-remark@9'
 ```
 
-In browsers with [Skypack][]:
+In browsers with [`esm.sh`][esmsh]:
 
 ```html
 <script type="module">
-  import rehypeRemark from 'https://cdn.skypack.dev/rehype-remark@9?min'
+  import rehypeRemark from 'https://esm.sh/rehype-remark@9?bundle'
 </script>
 ```
 
@@ -358,7 +358,7 @@ abide by its terms.
 
 [npm]: https://docs.npmjs.com/cli/install
 
-[skypack]: https://www.skypack.dev
+[esmsh]: https://esm.sh
 
 [health]: https://github.com/rehypejs/.github
 
