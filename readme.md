@@ -144,8 +144,8 @@ Plugin that turns HTML into markdown to support remark.
 
 If a [`Unified`][processor] destination processor is given, that processor runs
 with a new markdown (mdast) tree (bridge-mode).
-As the given processor runs with a mdast tree, and remark plugins support mdast,
-that means remark plugins can be used with the given processor.
+As the given processor runs with an mdast tree, and remark plugins support
+mdast, that means remark plugins can be used with the given processor.
 The mdast tree is discarded in the end.
 
 > 👉 **Note**: It’s highly unlikely that you want to do this.
