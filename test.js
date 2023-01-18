@@ -12,12 +12,10 @@ import {unified} from 'unified'
 import rehypeParse from 'rehype-parse'
 import remarkStringify from 'remark-stringify'
 import rehypeStringify from 'rehype-stringify'
-import rehypeRemark, {defaultHandlers, all, one} from './index.js'
+import rehypeRemark, {defaultHandlers} from './index.js'
 
 test('exports', (t) => {
   t.assert(defaultHandlers, 'should export `defaultHandlers`')
-  t.assert(one, 'should export `one`')
-  t.assert(all, 'should export `all`')
 
   t.end()
 })
@@ -86,10 +84,18 @@ test('handlers option', (t) => {
          * @type {Handle}
          * @param {Element & {tagName: 'div'}} node
          */
-        div(h, node) {
+        div(state, node) {
           const head = node.children[0]
           if (head && head.type === 'text') {
-            return h(node, 'paragraph', {type: 'text', value: 'changed'})
+            const result = {
+              type: 'paragraph',
+              children: [{
+                type: 'text',
+                value: 'changed',
+              }],
+            }
+            state.patch(node, result);
+            return result;
           }
         }
       }
