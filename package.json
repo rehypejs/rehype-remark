@@ -1,5 +1,5 @@
 {
-  "name": "@adobe/rehype-remark",
+  "name": "rehype-remark",
   "version": "10.0.0",
   "description": "rehype plugin to transform to remark",
   "license": "MIT",
