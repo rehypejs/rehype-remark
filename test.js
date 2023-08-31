@@ -4,10 +4,10 @@
 
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import {unified} from 'unified'
 import rehypeParse from 'rehype-parse'
-import remarkStringify from 'remark-stringify'
 import rehypeStringify from 'rehype-stringify'
+import remarkStringify from 'remark-stringify'
+import {unified} from 'unified'
 import rehypeRemark from './index.js'
 
 test('rehypeRemark', async function (t) {
