@@ -282,8 +282,8 @@ versions of Node.js.
 
 When we cut a new major release, we drop support for unmaintained versions of
 Node.
-This means we try to keep the current release line, `rehype-remark@^9`,
-compatible with Node.js 12.
+This means we try to keep the current release line, `rehype-remark@^10`,
+compatible with Node.js 16.
 
 This plugin works with `unified` version 6+, `rehype-parse` version 3+ (used in
 `rehype` version 5), and `remark-stringify` version 3+ (used in `remark`
