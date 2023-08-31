@@ -18,9 +18,7 @@
 *   [Use](#use)
 *   [API](#api)
     *   [`unified().use(rehypeRemark[, destination][, options])`](#unifieduserehyperemark-destination-options)
-    *   [`defaultHandlers`](#defaulthandlers)
-    *   [`all`](#all)
-    *   [`one`](#one)
+    *   [`Options`](#options)
 *   [Examples](#examples)
     *   [Example: ignoring things](#example-ignoring-things)
     *   [Example: keeping some HTML](#example-keeping-some-html)
@@ -74,8 +72,8 @@ It turns markdown into HTML.
 
 ## Install
 
-This package is [ESM only](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c).
-In Node.js (version 12.20+, 14.14+, or 16.0+), install with [npm][]:
+This package is [ESM only][esm].
+In Node.js (version 16+), install with [npm][]:
 
 ```sh
 npm install rehype-remark
@@ -100,25 +98,22 @@ In browsers with [`esm.sh`][esmsh]:
 Say we have the following module `example.js`:
 
 ```js
-import fetch from 'node-fetch'
-import {unified} from 'unified'
 import rehypeParse from 'rehype-parse'
 import rehypeRemark from 'rehype-remark'
 import remarkStringify from 'remark-stringify'
+import {fetch} from 'undici'
+import {unified} from 'unified'
 
-main()
+const response = await fetch('https://example.com')
+const text = await response.text()
 
-async function main() {
-  const response = await fetch('https://example.com')
+const file = await unified()
+  .use(rehypeParse)
+  .use(rehypeRemark)
+  .use(remarkStringify)
+  .process(text)
 
-  const file = await unified()
-    .use(rehypeParse)
-    .use(rehypeRemark)
-    .use(remarkStringify)
-    .process(await response.text())
-
-  console.log(String(file))
-}
+console.log(String(file))
 ```
 
 Now running `node example.js` yields:
@@ -133,80 +128,69 @@ This domain is for use in illustrative examples in documents. You may use this d
 
 ## API
 
-This package exports `defaultHandlers`, `all`, and `one`.
-The default export is `rehypeRemark`.
+This package exports no identifiers.
+The default export is [`rehypeRemark`][api-rehype-remark].
 
 ### `unified().use(rehypeRemark[, destination][, options])`
 
-Plugin that turns HTML into markdown to support remark.
+Turn HTML into markdown.
 
-###### `destination`
+###### Parameters
 
-If a [`Unified`][processor] destination processor is given, that processor runs
-with a new markdown (mdast) tree (bridge-mode).
-As the given processor runs with an mdast tree, and remark plugins support
-mdast, that means remark plugins can be used with the given processor.
-The mdast tree is discarded in the end.
+*   `destination` ([`Processor`][unified-processor], optional)
+    — processor
+*   `options` ([`Options`][api-options], optional)
+    — configuration
 
-> 👉 **Note**: It’s highly unlikely that you want to do this.
+###### Returns
 
-##### `options`
+Transform ([`Transformer`][unified-transformer]).
 
-Configuration (optional).
+###### Notes
 
-###### `options.newlines`
+*   if a [processor][unified-processor] is given, runs the (remark) plugins
+    used on it with an mdast tree, then discards the result
+    ([*bridge mode*][unified-mode])
+*   otherwise, returns an mdast tree, the plugins used after `rehypeRemark`
+    are remark plugins ([*mutate mode*][unified-mode])
 
-Keep line endings when collapsing whitespace (`boolean`, default: `false`).
-The default collapses to a single space.
+> 👉 **Note**: It’s highly unlikely that you want to pass a `processor`.
 
-###### `options.checked`
+### `Options`
 
-Value to use for a checked checkbox or radio input (`string`, default: `[x]`).
+Configuration (TypeScript type).
 
-###### `options.unchecked`
+###### Fields
 
-Value to use for an unchecked checkbox or radio input (`string`, default:
-`[ ]`).
-
-###### `options.quotes`
-
-List of quotes to use (`Array<string>`, default: `['"']`).
-Each value can be one or two characters.
-When two, the first character determines the opening quote and the second the
-closing quote at that level.
-When one, both the opening and closing quote are that character.
-The order in which the preferred quotes appear determines which quotes to use at
-which level of nesting.
-So, to prefer `‘’` at the first level of nesting, and `“”` at the second, pass
-`['‘’', '“”']`.
-If `<q>`s are nested deeper than the given amount of quotes, the markers wrap
-around: a third level of nesting when using `['«»', '‹›']` should have double
-guillemets, a fourth single, a fifth double again, etc.
-
-###### `options.document`
-
-It’s highly unlikely that you need to change the default of `document: true`.
-More info is available in [`hast-util-to-mdast`][hast-util-to-mdast].
-
-###### `options.handlers`
-
-This option is a bit advanced as it requires knowledge of ASTs, so we defer
-to the documentation available in [`hast-util-to-mdast`][hast-util-to-mdast].
-
-### `defaultHandlers`
-
-The `defaultHandlers` export from [`hast-util-to-mdast`][hast-util-to-mdast],
-useful when passing in your own handlers.
-
-### `all`
-
-The `all` export from [`hast-util-to-mdast`][hast-util-to-mdast],
-useful when passing in your own handlers.
-
-### `one`
-
-The `one` export from [`hast-util-to-mdast`][hast-util-to-mdast],
-useful when passing in your own handlers.
+*   `checked` (`string`, default: `'[x]'`)
+    — value to use for a checked checkbox or radio input
+*   `document` (`boolean`, default: `true`)
+    — whether the given tree represents a complete document; when the tree
+    represents a complete document, then things are wrapped in paragraphs
+    when needed, and otherwise they’re left as-is
+*   `handlers` (`Record<string, Handle>`, optional)
+    — object mapping tag names to functions handling the corresponding
+    elements; merged into the defaults; see
+    [`Handle` in `hast-util-to-mdast`][hast-util-to-mdast-handle]
+*   `newlines` (`boolean`, default: `false`)
+    — keep line endings when collapsing whitespace; the default collapses to a
+    single space
+*   `nodeHandlers` (`Record<string, NodeHandle>`, optional)
+    — object mapping node types to functions handling the corresponding nodes;
+    merged into the defaults; see
+    [`NodeHandle` in `hast-util-to-mdast`][hast-util-to-mdast-node-handle]
+*   `quotes` (`Array<string>`, default: `['"']`)
+    — list of quotes to use; each value can be one or two characters; when two,
+    the first character determines the opening quote and the second the closing
+    quote at that level; when one, both the opening and closing quote are that
+    character; the order in which the preferred quotes appear determines which
+    quotes to use at which level of nesting; so, to prefer `‘’` at the first
+    level of nesting, and `“”` at the second, pass `['‘’', '“”']`; if `<q>`s
+    are nested deeper than the given amount of quotes, the markers wrap around:
+    a third level of nesting when using `['«»', '‹›']` should have double
+    guillemets, a fourth single, a fifth double again, etc
+*   `unchecked` (`string`, default: `'[ ]'`)
+    — value to use for an unchecked checkbox or radio input
 
 ## Examples
 
@@ -250,30 +234,33 @@ Say we have the following file `example.html`:
 And our module `example.js` looks as follows:
 
 ```js
-import {read} from 'to-vfile'
-import {unified} from 'unified'
+/**
+ * @typedef {import('mdast').Html} Html
+ */
+
+import {toHtml} from 'hast-util-to-html'
 import rehypeParse from 'rehype-parse'
 import rehypeRemark from 'rehype-remark'
 import remarkStringify from 'remark-stringify'
-import {toHtml} from 'hast-util-to-html'
+import {read} from 'to-vfile'
+import {unified} from 'unified'
 
-main()
-
-async function main() {
-  const file = await unified()
-    .use(rehypeParse, {fragment: true})
-    .use(rehypeRemark, {
-      handlers: {
-        svg(h, node) {
-          return h(node, 'html', toHtml(node))
-        }
+const file = await unified()
+  .use(rehypeParse, {fragment: true})
+  .use(rehypeRemark, {
+    handlers: {
+      svg(state, node) {
+        /** @type {Html} */
+        const result = {type: 'html', value: toHtml(node)}
+        state.patch(node, result)
+        return result
       }
-    })
-    .use(remarkStringify)
-    .process(await read('example.html'))
+    }
+  })
+  .use(remarkStringify)
+  .process(await read('example.html'))
 
-  console.log(String(file))
-}
+console.log(String(file))
 ```
 
 Now running `node example.js` yields:
@@ -285,17 +272,18 @@ Some text with <svg viewBox="0 0 1 1" width="1" height="1"><rect fill="black" x=
 ## Types
 
 This package is fully typed with [TypeScript][].
-It exports `Options` and `Processor` types, which specify the interfaces of the
-accepted parameters.
-The `Handle`, `H`, and `Context` exports from
-[`hast-util-to-mdast`][hast-util-to-mdast] are also exported.
+It exports the additional type [`Options`][api-options].
+More advanced types are exposed from [`hast-util-to-mdast`][hast-util-to-mdast].
 
 ## Compatibility
 
-Projects maintained by the unified collective are compatible with all maintained
+Projects maintained by the unified collective are compatible with maintained
 versions of Node.js.
-As of now, that is Node.js 12.20+, 14.14+, and 16.0+.
-Our projects sometimes work with older versions, but this is not guaranteed.
+
+When we cut a new major release, we drop support for unmaintained versions of
+Node.
+This means we try to keep the current release line, `rehype-remark@^9`,
+compatible with Node.js 12.
 
 This plugin works with `unified` version 6+, `rehype-parse` version 3+ (used in
 `rehype` version 5), and `remark-stringify` version 3+ (used in `remark`
@@ -342,9 +330,9 @@ abide by its terms.
 
 [downloads]: https://www.npmjs.com/package/rehype-remark
 
-[size-badge]: https://img.shields.io/bundlephobia/minzip/rehype-remark.svg
+[size-badge]: https://img.shields.io/bundlejs/size/rehype-remark
 
-[size]: https://bundlephobia.com/result?p=rehype-remark
+[size]: https://bundlejs.com/?q=rehype-remark
 
 [sponsors-badge]: https://opencollective.com/unified/sponsors/badge.svg
 
@@ -358,15 +346,17 @@ abide by its terms.
 
 [npm]: https://docs.npmjs.com/cli/install
 
+[esm]: https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c
+
 [esmsh]: https://esm.sh
 
 [health]: https://github.com/rehypejs/.github
 
-[contributing]: https://github.com/rehypejs/.github/blob/HEAD/contributing.md
+[contributing]: https://github.com/rehypejs/.github/blob/main/contributing.md
 
-[support]: https://github.com/rehypejs/.github/blob/HEAD/support.md
+[support]: https://github.com/rehypejs/.github/blob/main/support.md
 
-[coc]: https://github.com/rehypejs/.github/blob/HEAD/code-of-conduct.md
+[coc]: https://github.com/rehypejs/.github/blob/main/code-of-conduct.md
 
 [license]: license
 
@@ -374,14 +364,26 @@ abide by its terms.
 
 [typescript]: https://www.typescriptlang.org
 
-[unified]: https://github.com/unifiedjs/unified
+[rehype]: https://github.com/rehypejs/rehype
 
 [remark]: https://github.com/remarkjs/remark
 
-[rehype]: https://github.com/rehypejs/rehype
-
-[processor]: https://github.com/unifiedjs/unified#processor
-
 [remark-rehype]: https://github.com/remarkjs/remark-rehype
 
+[unified]: https://github.com/unifiedjs/unified
+
+[unified-mode]: https://github.com/unifiedjs/unified#transforming-between-ecosystems
+
+[unified-processor]: https://github.com/unifiedjs/unified#processor
+
+[unified-transformer]: https://github.com/unifiedjs/unified#transformer
+
 [hast-util-to-mdast]: https://github.com/syntax-tree/hast-util-to-mdast
+
+[hast-util-to-mdast-handle]: https://github.com/syntax-tree/hast-util-to-mdast#handle
+
+[hast-util-to-mdast-node-handle]: https://github.com/syntax-tree/hast-util-to-mdast#nodehandle
+
+[api-options]: #options
+
+[api-rehype-remark]: #unifieduserehyperemark-destination-options
