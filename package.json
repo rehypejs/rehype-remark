@@ -37,7 +37,8 @@
     "@types/hast": "^3.0.0",
     "@types/mdast": "^4.0.0",
     "hast-util-to-mdast": "^10.0.0",
-    "unified": "^11.0.0"
+    "unified": "^11.0.0",
+    "vfile": "^6.0.0"
   },
   "devDependencies": {
     "@types/tape": "^5.0.0",

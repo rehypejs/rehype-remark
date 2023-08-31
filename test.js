@@ -19,7 +19,7 @@ test('exports', (t) => {
   t.end()
 })
 
-test('rehypeRemark', (t) => {
+test('rehypeRemark', async (t) => {
   t.equal(
     unified()
       .use(rehypeParse)
@@ -35,17 +35,14 @@ test('rehypeRemark', (t) => {
   // @ts-expect-error: to do: remove when `remark` is released.
   const proc = unified().use(remarkStringify)
 
-  t.equal(
-    unified()
-      .use(rehypeParse, {fragment: true})
-      // @ts-expect-error: something is going wrong.
-      .use(rehypeRemark, proc)
-      .use(rehypeStringify)
-      .processSync('<h2>Hello, world!</h2>')
-      .toString(),
-    '<h2>Hello, world!</h2>',
-    'should bridge'
-  )
+  const file = await unified()
+    .use(rehypeParse, {fragment: true})
+    // @ts-expect-error: something is going wrong.
+    .use(rehypeRemark, proc)
+    .use(rehypeStringify)
+    .process('<h2>Hello, world!</h2>')
+
+  t.equal(file.toString(), '<h2>Hello, world!</h2>', 'should bridge')
 
   // This one looks buggy, but that’s ’cause `remark-stringify` always expects
   // a complete document.
