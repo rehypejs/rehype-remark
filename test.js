@@ -6,13 +6,13 @@ import assert from 'node:assert/strict'
 import test from 'node:test'
 import rehypeParse from 'rehype-parse'
 import rehypeStringify from 'rehype-stringify'
+import rehypeRemark from 'rehype-remark'
 import remarkStringify from 'remark-stringify'
 import {unified} from 'unified'
-import rehypeRemark from './index.js'
 
 test('rehypeRemark', async function (t) {
   await t.test('should expose the public api', async function () {
-    assert.deepEqual(Object.keys(await import('./index.js')).sort(), [
+    assert.deepEqual(Object.keys(await import('rehype-remark')).sort(), [
       'default'
     ])
   })
