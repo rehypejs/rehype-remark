@@ -1,114 +1,97 @@
 /**
- * @typedef {import('./index.js').Options} Options
- * @typedef {import('hast').Element} Element
- * @typedef {import('hast').Text} Text
- * @typedef {import('mdast').Root} MdastRoot
- * @typedef {import('mdast').Paragraph} Paragraph
+ * @typedef {import('mdast').Heading} Heading
  */
 
-import assert from 'node:assert'
-import test from 'tape'
+import assert from 'node:assert/strict'
+import test from 'node:test'
 import {unified} from 'unified'
 import rehypeParse from 'rehype-parse'
 import remarkStringify from 'remark-stringify'
 import rehypeStringify from 'rehype-stringify'
-import rehypeRemark, {defaultHandlers} from './index.js'
+import rehypeRemark from './index.js'
 
-test('exports', (t) => {
-  t.assert(defaultHandlers, 'should export `defaultHandlers`')
-  t.end()
-})
+test('rehypeRemark', async function (t) {
+  await t.test('should expose the public api', async function () {
+    assert.deepEqual(Object.keys(await import('./index.js')).sort(), [
+      'default',
+      'defaultHandlers'
+    ])
+  })
 
-test('rehypeRemark', async (t) => {
-  t.equal(
-    unified()
+  await t.test('should mutate', async function () {
+    const file = await unified()
       .use(rehypeParse)
       .use(rehypeRemark)
       // @ts-expect-error: to do: remove when `remark` is released.
       .use(remarkStringify)
-      .processSync('<h2>Hello, world!</h2>')
-      .toString(),
-    '## Hello, world!\n',
-    'should mutate'
-  )
+      .process('<h2>Hello, world!</h2>')
 
-  // @ts-expect-error: to do: remove when `remark` is released.
-  const proc = unified().use(remarkStringify)
+    assert.equal(String(file), '## Hello, world!\n')
+  })
 
-  const file = await unified()
-    .use(rehypeParse, {fragment: true})
-    // @ts-expect-error: something is going wrong.
-    .use(rehypeRemark, proc)
-    .use(rehypeStringify)
-    .process('<h2>Hello, world!</h2>')
+  await t.test('should bridge', async function () {
+    // @ts-expect-error: to do: remove when `remark` is released.
+    const destination = unified().use(remarkStringify)
 
-  t.equal(file.toString(), '<h2>Hello, world!</h2>', 'should bridge')
+    const file = await unified()
+      .use(rehypeParse, {fragment: true})
+      // @ts-expect-error: to do: remove when `remark` is released.
+      .use(rehypeRemark, destination)
+      .use(rehypeStringify)
+      .process('<h2>Hello, world!</h2>')
 
-  // This one looks buggy, but that’s ’cause `remark-stringify` always expects
-  // a complete document.
-  // The fact that it bugs-out thus shows that the phrasing are handled
-  // normally.
-  t.equal(
-    unified()
+    assert.equal(String(file), '<h2>Hello, world!</h2>')
+  })
+
+  await t.test('should support `document: false`', async function () {
+    const file = await unified()
       .use(rehypeParse, {fragment: true})
       .use(rehypeRemark, {document: false})
       // @ts-expect-error: to do: remove when `remark` is released.
       .use(remarkStringify)
-      .processSync('<i>Hello</i>, <b>world</b>!')
-      .toString(),
-    '*Hello*, **world**!\n',
-    'should support `document: false`'
-  )
+      .process('<i>Hello</i>, <b>world</b>!')
 
-  t.equal(
-    unified()
+    // This one looks buggy, but that’s ’cause `remark-stringify` always expects
+    // a complete document.
+    // The fact that it bugs-out thus shows that the phrasing are handled
+    // normally.
+    assert.equal(String(file), '*Hello*, **world**!\n')
+  })
+
+  await t.test('should default to `document: true`', async function () {
+    const file = await unified()
       .use(rehypeParse, {fragment: true})
       .use(rehypeRemark)
       // @ts-expect-error: to do: remove when `remark` is released.
       .use(remarkStringify)
       .processSync('<i>Hello</i>, <b>world</b>!')
-      .toString(),
-    '*Hello*, **world**!\n',
-    'should default to `document: true`'
-  )
 
-  t.end()
-})
+    assert.equal(String(file), '*Hello*, **world**!\n')
+  })
 
-test('handlers option', (t) => {
-  const toMarkdown = unified()
-    .use(rehypeParse, {fragment: true})
-    .use(rehypeRemark, {
-      handlers: {
-        div(state, node) {
-          if (node.tagName === 'div') {
-            /** @type {Paragraph} */
-            const result = {
-              type: 'paragraph',
-              children: [{type: 'text', value: 'changed'}]
+  await t.test('should support `options.handlers`', async function () {
+    const file = await unified()
+      .use(rehypeParse, {fragment: true})
+      .use(rehypeRemark, {
+        handlers: {
+          div(state, node) {
+            if (node.tagName === 'div') {
+              /** @type {Heading} */
+              const result = {
+                type: 'heading',
+                depth: 1,
+                children: [{type: 'text', value: 'changed'}]
+              }
+              state.patch(node, result)
+              return result
             }
-            state.patch(node, result)
-            return result
           }
         }
-      }
-    })
-    // @ts-expect-error: to do: remove when `remark` is released.
-    .use(remarkStringify)
+      })
+      // @ts-expect-error: to do: remove when `remark` is released.
+      .use(remarkStringify)
+      .process('<div>example</div>')
 
-  const input = '<div>example</div>'
-  const expected = 'changed\n'
-
-  const result = toMarkdown.processSync(input).toString()
-
-  t.equal(result, expected)
-
-  const tree = toMarkdown.runSync(toMarkdown.parse(input))
-  const head = tree.children[0]
-  t.equal(head && head.type, 'paragraph')
-  assert(head.type === 'paragraph')
-  const headHead = head.children[0]
-  assert(headHead.type === 'text')
-  t.equal(headHead.value, 'changed')
-  t.end()
+    assert.equal(String(file), '# changed\n')
+  })
 })
