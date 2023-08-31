@@ -59,7 +59,7 @@ test('rehypeRemark', (t) => {
       .use(remarkStringify)
       .processSync('<i>Hello</i>, <b>world</b>!')
       .toString(),
-    '*Hello*\n\n, \n\n**world**\n\n!\n',
+    '*Hello*, **world**!\n',
     'should support `document: false`'
   )
 
