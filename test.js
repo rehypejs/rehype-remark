@@ -21,7 +21,6 @@ test('rehypeRemark', async function (t) {
     const file = await unified()
       .use(rehypeParse)
       .use(rehypeRemark)
-      // @ts-expect-error: to do: remove when `remark` is released.
       .use(remarkStringify)
       .process('<h2>Hello, world!</h2>')
 
@@ -29,13 +28,10 @@ test('rehypeRemark', async function (t) {
   })
 
   await t.test('should bridge', async function () {
-    // @ts-expect-error: to do: remove when `remark` is released.
-    const destination = unified().use(remarkStringify)
-
     const file = await unified()
       .use(rehypeParse, {fragment: true})
-      // @ts-expect-error: to do: remove when `remark` is released.
-      .use(rehypeRemark, destination)
+      // @ts-expect-error: TS currently barfs on overloads that result in mutate/bridges.
+      .use(rehypeRemark, unified())
       .use(rehypeStringify)
       .process('<h2>Hello, world!</h2>')
 
@@ -46,14 +42,9 @@ test('rehypeRemark', async function (t) {
     const file = await unified()
       .use(rehypeParse, {fragment: true})
       .use(rehypeRemark, {document: false})
-      // @ts-expect-error: to do: remove when `remark` is released.
       .use(remarkStringify)
       .process('<i>Hello</i>, <b>world</b>!')
 
-    // This one looks buggy, but that’s ’cause `remark-stringify` always expects
-    // a complete document.
-    // The fact that it bugs-out thus shows that the phrasing are handled
-    // normally.
     assert.equal(String(file), '*Hello*, **world**!\n')
   })
 
@@ -61,7 +52,6 @@ test('rehypeRemark', async function (t) {
     const file = await unified()
       .use(rehypeParse, {fragment: true})
       .use(rehypeRemark)
-      // @ts-expect-error: to do: remove when `remark` is released.
       .use(remarkStringify)
       .processSync('<i>Hello</i>, <b>world</b>!')
 
@@ -87,7 +77,6 @@ test('rehypeRemark', async function (t) {
           }
         }
       })
-      // @ts-expect-error: to do: remove when `remark` is released.
       .use(remarkStringify)
       .process('<div>example</div>')
 

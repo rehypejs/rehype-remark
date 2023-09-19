@@ -47,7 +47,7 @@
     "rehype-stringify": "^10.0.0",
     "remark-cli": "^11.0.0",
     "remark-preset-wooorm": "^9.0.0",
-    "remark-stringify": "^10.0.0",
+    "remark-stringify": "^11.0.0",
     "type-coverage": "^2.0.0",
     "typescript": "^5.0.0",
     "xo": "^0.56.0"
@@ -58,7 +58,7 @@
     "prepack": "npm run build && npm run format",
     "test": "npm run build && npm run format && npm run test-coverage",
     "test-api": "node --conditions development test.js",
-    "test-coverage": "c8 --100 --check-coverage --reporter lcov npm run test-api"
+    "test-coverage": "c8 --100 --reporter lcov npm run test-api"
   },
   "prettier": {
     "bracketSpacing": false,
