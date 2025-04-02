@@ -35,24 +35,30 @@ rehype (the HTML ecosystem) to
 remark (the markdown ecosystem).
 It does this by transforming the current HTML (hast) syntax tree into a markdown
 (mdast) syntax tree.
-rehype plugins deal with hast and remark plugins deal with mdast, so plugins
-used after `rehype-remark` have to be remark plugins.
+rehype plugins deal with hast and remark plugins deal with mdast,
+so plugins used after `rehype-remark` have to be remark plugins.
 
 The reason that there are different ecosystems for markdown and HTML is that
-turning markdown into HTML is, while frequently needed, not the only purpose of
-markdown.
+turning markdown into HTML is,
+while frequently needed,
+not the only purpose of markdown.
 Checking (linting) and formatting markdown are also common use cases for
 remark and markdown.
 There are several aspects of markdown that do not translate 1-to-1 to HTML.
-In some cases markdown contains more information than HTML: for example, there
-are several ways to add a link in markdown (as in, autolinks: `<https://url>`,
-resource links: `[label](url)`, and reference links with definitions:
-`[label][id]` and `[id]: url`).
-In other cases HTML contains more information than markdown: there are many
-tags, which add new meaning (semantics), available in HTML that aren’t available
-in markdown.
-If there was just one AST, it would be quite hard to perform the tasks that
-several remark and rehype plugins currently do.
+In some cases markdown contains more information than HTML:
+for example,
+there are several ways to add a link in markdown
+(as in,
+autolinks: `<https://url>`,
+resource links: `[label](url)`,
+and reference links with definitions: `[label][id]` and `[id]: url`).
+In other cases HTML contains more information than markdown:
+there are many tags,
+which add new meaning (semantics),
+available in HTML that aren’t available in markdown.
+If there was just one AST,
+it would be quite hard to perform the tasks that several remark and rehype
+plugins currently do.
 
 **unified** is a project that transforms content with abstract syntax trees
 (ASTs).
@@ -73,7 +79,8 @@ It turns markdown into HTML.
 ## Install
 
 This package is [ESM only][github-gist-esm].
-In Node.js (version 16+), install with [npm][npmjs-install]:
+In Node.js (version 16+),
+install with [npm][npmjs-install]:
 
 ```sh
 npm install rehype-remark
@@ -137,9 +144,11 @@ Turn HTML into markdown.
 
 ###### Parameters
 
-* `destination` ([`Processor`][github-unified-processor], optional)
+* `destination`
+  ([`Processor`][github-unified-processor], optional)
   — processor
-* `options` ([`Options`][api-options], optional)
+* `options`
+  ([`Options`][api-options], optional)
   — configuration
 
 ###### Returns
@@ -148,13 +157,17 @@ Transform ([`Transformer`][github-unified-transformer]).
 
 ###### Notes
 
-* if a [processor][github-unified-processor] is given, runs the (remark) plugins
-  used on it with an mdast tree, then discards the result
+* if a [processor][github-unified-processor] is given,
+  runs the (remark) plugins used on it with an mdast tree,
+  then discards the result
   ([*bridge mode*][github-unified-mode])
-* otherwise, returns an mdast tree, the plugins used after `rehypeRemark`
-  are remark plugins ([*mutate mode*][github-unified-mode])
+* otherwise,
+  returns an mdast tree,
+  the plugins used after `rehypeRemark` are remark plugins
+  ([*mutate mode*][github-unified-mode])
 
-> 👉 **Note**: It’s highly unlikely that you want to pass a `processor`.
+> 👉 **Note**:
+> It’s highly unlikely that you want to pass a `processor`.
 
 ### `Options`
 
@@ -162,34 +175,54 @@ Configuration (TypeScript type).
 
 ###### Fields
 
-* `checked` (`string`, default: `'[x]'`)
+* `checked`
+  (`string`, default: `'[x]'`)
   — value to use for a checked checkbox or radio input
-* `document` (`boolean`, default: `true`)
-  — whether the given tree represents a complete document; when the tree
-  represents a complete document, then things are wrapped in paragraphs
-  when needed, and otherwise they’re left as-is
-* `handlers` (`Record<string, Handle>`, optional)
+* `document`
+  (`boolean`, default: `true`)
+  — whether the given tree represents a complete document;
+  when the tree represents a complete document,
+  then things are wrapped in paragraphs when needed,
+  and otherwise they’re left as-is
+* `handlers`
+  (`Record<string, Handle>`, optional)
   — object mapping tag names to functions handling the corresponding
-  elements; merged into the defaults; see
+  elements;
+  merged into the defaults;
+  see
   [`Handle` in `hast-util-to-mdast`][github-hast-util-to-mdast-handle]
-* `newlines` (`boolean`, default: `false`)
-  — keep line endings when collapsing whitespace; the default collapses to a
-  single space
-* `nodeHandlers` (`Record<string, NodeHandle>`, optional)
+* `newlines`
+  (`boolean`, default: `false`)
+  — keep line endings when collapsing whitespace;
+  the default collapses to a single space
+* `nodeHandlers`
+  (`Record<string, NodeHandle>`, optional)
   — object mapping node types to functions handling the corresponding nodes;
-  merged into the defaults; see
+  merged into the defaults;
+  see
   [`NodeHandle` in `hast-util-to-mdast`][github-hast-util-to-mdast-node-handle]
 * `quotes` (`Array<string>`, default: `['"']`)
-  — list of quotes to use; each value can be one or two characters; when two,
+  — list of quotes to use;
+  each value can be one or two characters;
+  when two,
   the first character determines the opening quote and the second the closing
-  quote at that level; when one, both the opening and closing quote are that
-  character; the order in which the preferred quotes appear determines which
-  quotes to use at which level of nesting; so, to prefer `‘’` at the first
-  level of nesting, and `“”` at the second, pass `['‘’', '“”']`; if `<q>`s
-  are nested deeper than the given amount of quotes, the markers wrap around:
+  quote at that level;
+  when one,
+  both the opening and closing quote are that character;
+  the order in which the preferred quotes appear determines which quotes to use
+  at which level of nesting;
+  so,
+  to prefer `‘’` at the first level of nesting,
+  and `“”` at the second,
+  pass `['‘’', '“”']`;
+  if `<q>`s are nested deeper than the given amount of quotes,
+  the markers wrap around:
   a third level of nesting when using `['«»', '‹›']` should have double
-  guillemets, a fourth single, a fifth double again, etc
-* `unchecked` (`string`, default: `'[ ]'`)
+  guillemets,
+  a fourth single, a fifth double again,
+  etc
+* `unchecked`
+  (`string`, default: `'[ ]'`)
   — value to use for an unchecked checkbox or radio input
 
 ## Examples
@@ -197,8 +230,8 @@ Configuration (TypeScript type).
 ### Example: ignoring things
 
 It’s possible to exclude something from within HTML when turning it into
-markdown, by wrapping it in an element with a `data-mdast` attribute set to
-`'ignore'`.
+markdown,
+by wrapping it in an element with a `data-mdast` attribute set to `'ignore'`.
 For example:
 
 ```html
@@ -211,8 +244,8 @@ Yields:
 **Importance** and .
 ```
 
-It’s also possible to pass a handler to ignore nodes, or create your own plugin
-that uses more advanced filters.
+It’s also possible to pass a handler to ignore nodes,
+or create your own plugin that uses more advanced filters.
 
 ### Example: keeping some HTML
 
@@ -281,14 +314,17 @@ More advanced types are exposed from
 Projects maintained by the unified collective are compatible with maintained
 versions of Node.js.
 
-When we cut a new major release, we drop support for unmaintained versions of
-Node.
-This means we try to keep the current release line, `rehype-remark@^10`,
+When we cut a new major release,
+we drop support for unmaintained versions of Node.
+This means we try to keep the current release line,
+`rehype-remark@10`,
 compatible with Node.js 16.
 
-This plugin works with `unified` version 6+, `rehype-parse` version 3+ (used in
-`rehype` version 5), and `remark-stringify` version 3+ (used in `remark`
-version 7).
+This plugin works with `unified` version 6+,
+`rehype-parse` version 3+
+(used in `rehype` version 5),
+and `remark-stringify` version 3+
+(used in `remark` version 7).
 
 ## Security
 
@@ -310,8 +346,9 @@ for ways to get started.
 See [`support.md`][health-support] for ways to get help.
 
 This project has a [code of conduct][health-coc].
-By interacting with this repository, organization, or community you agree to
-abide by its terms.
+By interacting with this repository,
+organization,
+or community you agree to abide by its terms.
 
 ## License
 
