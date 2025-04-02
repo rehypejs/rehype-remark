@@ -1,5 +1,5 @@
 /**
- * @typedef {import('mdast').Heading} Heading
+ * @import {Heading} from 'mdast'
  */
 
 import assert from 'node:assert/strict'

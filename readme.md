@@ -235,7 +235,7 @@ And our module `example.js` looks as follows:
 
 ```js
 /**
- * @typedef {import('mdast').Html} Html
+ * @import {Html} from 'mdast'
  */
 
 import {toHtml} from 'hast-util-to-html'

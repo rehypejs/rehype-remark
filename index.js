@@ -1,5 +1,5 @@
 /**
- * @typedef {import('./lib/index.js').Options} Options
+ * @typedef {import('hast-util-to-mdast').Options} Options
  */
 
 export {default} from './lib/index.js'
