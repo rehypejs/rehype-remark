@@ -1,37 +1,8 @@
 {
-  "name": "rehype-remark",
-  "version": "10.0.0",
-  "description": "rehype plugin to transform to remark",
-  "license": "MIT",
-  "keywords": [
-    "unified",
-    "rehype",
-    "rehype-plugin",
-    "remark",
-    "remark-plugin",
-    "html",
-    "markdown",
-    "hast",
-    "mdast"
-  ],
-  "repository": "rehypejs/rehype-remark",
-  "bugs": "https://github.com/rehypejs/rehype-remark/issues",
-  "funding": {
-    "type": "opencollective",
-    "url": "https://opencollective.com/unified"
-  },
   "author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+  "bugs": "https://github.com/rehypejs/rehype-remark/issues",
   "contributors": [
     "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)"
-  ],
-  "sideEffects": false,
-  "type": "module",
-  "exports": "./index.js",
-  "files": [
-    "lib/",
-    "index.d.ts.map",
-    "index.d.ts",
-    "index.js"
   ],
   "dependencies": {
     "@types/hast": "^3.0.0",
@@ -40,6 +11,7 @@
     "unified": "^11.0.0",
     "vfile": "^6.0.0"
   },
+  "description": "rehype plugin to transform to remark",
   "devDependencies": {
     "@types/node": "^20.0.0",
     "c8": "^8.0.0",
@@ -53,14 +25,30 @@
     "typescript": "^5.0.0",
     "xo": "^0.56.0"
   },
-  "scripts": {
-    "build": "tsc --build --clean && tsc --build && type-coverage",
-    "format": "remark . --frail --output --quiet && prettier . --log-level warn --write && xo --fix",
-    "prepack": "npm run build && npm run format",
-    "test": "npm run build && npm run format && npm run test-coverage",
-    "test-api": "node --conditions development test.js",
-    "test-coverage": "c8 --100 --reporter lcov npm run test-api"
+  "exports": "./index.js",
+  "files": [
+    "index.d.ts.map",
+    "index.d.ts",
+    "index.js",
+    "lib/"
+  ],
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/unified"
   },
+  "keywords": [
+    "hast",
+    "html",
+    "markdown",
+    "mdast",
+    "rehype-plugin",
+    "rehype",
+    "remark-plugin",
+    "remark",
+    "unified"
+  ],
+  "license": "MIT",
+  "name": "rehype-remark",
   "prettier": {
     "bracketSpacing": false,
     "singleQuote": true,
@@ -74,12 +62,21 @@
       "remark-preset-wooorm"
     ]
   },
+  "repository": "rehypejs/rehype-remark",
+  "scripts": {
+    "build": "tsc --build --clean && tsc --build && type-coverage",
+    "format": "remark --frail --output --quiet -- . && prettier --log-level warn --write -- . && xo --fix",
+    "test-api": "node --conditions development test.js",
+    "test-coverage": "c8 --100 --reporter lcov -- npm run test-api",
+    "test": "npm run build && npm run format && npm run test-coverage"
+  },
+  "sideEffects": false,
   "typeCoverage": {
     "atLeast": 100,
-    "detail": true,
-    "ignoreCatch": true,
     "strict": true
   },
+  "type": "module",
+  "version": "10.0.0",
   "xo": {
     "prettier": true
   }
