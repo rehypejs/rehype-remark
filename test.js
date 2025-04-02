@@ -30,7 +30,6 @@ test('rehypeRemark', async function (t) {
   await t.test('should bridge', async function () {
     const file = await unified()
       .use(rehypeParse, {fragment: true})
-      // @ts-expect-error: TS currently barfs on overloads that result in mutate/bridges.
       .use(rehypeRemark, unified())
       .use(rehypeStringify)
       .process('<h2>Hello, world!</h2>')
