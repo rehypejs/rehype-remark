@@ -1,38 +1,38 @@
 # rehype-remark
 
-[![Build][build-badge]][build]
-[![Coverage][coverage-badge]][coverage]
-[![Downloads][downloads-badge]][downloads]
-[![Size][size-badge]][size]
-[![Sponsors][sponsors-badge]][collective]
-[![Backers][backers-badge]][collective]
-[![Chat][chat-badge]][chat]
+[![Build][badge-build-image]][badge-build-url]
+[![Coverage][badge-coverage-image]][badge-coverage-url]
+[![Downloads][badge-downloads-image]][badge-downloads-url]
+[![Size][badge-size-image]][badge-size-url]
 
-**[rehype][]** plugin that turns HTML into markdown to support **[remark][]**.
+**[rehype][github-rehype]** plugin that turns HTML into markdown to support
+**[remark][github-remark]**.
 
 ## Contents
 
-*   [What is this?](#what-is-this)
-*   [When should I use this?](#when-should-i-use-this)
-*   [Install](#install)
-*   [Use](#use)
-*   [API](#api)
-    *   [`unified().use(rehypeRemark[, destination][, options])`](#unifieduserehyperemark-destination-options)
-    *   [`Options`](#options)
-*   [Examples](#examples)
-    *   [Example: ignoring things](#example-ignoring-things)
-    *   [Example: keeping some HTML](#example-keeping-some-html)
-*   [Types](#types)
-*   [Compatibility](#compatibility)
-*   [Security](#security)
-*   [Related](#related)
-*   [Contribute](#contribute)
-*   [License](#license)
+* [What is this?](#what-is-this)
+* [When should I use this?](#when-should-i-use-this)
+* [Install](#install)
+* [Use](#use)
+* [API](#api)
+  * [`unified().use(rehypeRemark[, destination][, options])`](#unifieduserehyperemark-destination-options)
+  * [`Options`](#options)
+* [Examples](#examples)
+  * [Example: ignoring things](#example-ignoring-things)
+  * [Example: keeping some HTML](#example-keeping-some-html)
+* [Types](#types)
+* [Compatibility](#compatibility)
+* [Security](#security)
+* [Related](#related)
+* [Contribute](#contribute)
+* [License](#license)
 
 ## What is this?
 
-This package is a [unified][] ([rehype][]) plugin that switches from rehype (the
-HTML ecosystem) to remark (the markdown ecosystem).
+This package is a [unified][github-unified] ([rehype][github-rehype])
+plugin that switches from
+rehype (the HTML ecosystem) to
+remark (the markdown ecosystem).
 It does this by transforming the current HTML (hast) syntax tree into a markdown
 (mdast) syntax tree.
 rehype plugins deal with hast and remark plugins deal with mdast, so plugins
@@ -66,14 +66,14 @@ This is a rehype plugin that transforms hast into mdast to support remark.
 
 This project is useful when you want to turn HTML to markdown.
 
-The remark plugin [`remark-rehype`][remark-rehype] does the inverse of this
-plugin.
+The remark plugin [`remark-rehype`][github-remark-rehype] does the inverse of
+this plugin.
 It turns markdown into HTML.
 
 ## Install
 
-This package is [ESM only][esm].
-In Node.js (version 16+), install with [npm][]:
+This package is [ESM only][github-gist-esm].
+In Node.js (version 16+), install with [npm][npmjs-install]:
 
 ```sh
 npm install rehype-remark
@@ -137,22 +137,22 @@ Turn HTML into markdown.
 
 ###### Parameters
 
-*   `destination` ([`Processor`][unified-processor], optional)
-    — processor
-*   `options` ([`Options`][api-options], optional)
-    — configuration
+* `destination` ([`Processor`][github-unified-processor], optional)
+  — processor
+* `options` ([`Options`][api-options], optional)
+  — configuration
 
 ###### Returns
 
-Transform ([`Transformer`][unified-transformer]).
+Transform ([`Transformer`][github-unified-transformer]).
 
 ###### Notes
 
-*   if a [processor][unified-processor] is given, runs the (remark) plugins
-    used on it with an mdast tree, then discards the result
-    ([*bridge mode*][unified-mode])
-*   otherwise, returns an mdast tree, the plugins used after `rehypeRemark`
-    are remark plugins ([*mutate mode*][unified-mode])
+* if a [processor][github-unified-processor] is given, runs the (remark) plugins
+  used on it with an mdast tree, then discards the result
+  ([*bridge mode*][github-unified-mode])
+* otherwise, returns an mdast tree, the plugins used after `rehypeRemark`
+  are remark plugins ([*mutate mode*][github-unified-mode])
 
 > 👉 **Note**: It’s highly unlikely that you want to pass a `processor`.
 
@@ -162,35 +162,35 @@ Configuration (TypeScript type).
 
 ###### Fields
 
-*   `checked` (`string`, default: `'[x]'`)
-    — value to use for a checked checkbox or radio input
-*   `document` (`boolean`, default: `true`)
-    — whether the given tree represents a complete document; when the tree
-    represents a complete document, then things are wrapped in paragraphs
-    when needed, and otherwise they’re left as-is
-*   `handlers` (`Record<string, Handle>`, optional)
-    — object mapping tag names to functions handling the corresponding
-    elements; merged into the defaults; see
-    [`Handle` in `hast-util-to-mdast`][hast-util-to-mdast-handle]
-*   `newlines` (`boolean`, default: `false`)
-    — keep line endings when collapsing whitespace; the default collapses to a
-    single space
-*   `nodeHandlers` (`Record<string, NodeHandle>`, optional)
-    — object mapping node types to functions handling the corresponding nodes;
-    merged into the defaults; see
-    [`NodeHandle` in `hast-util-to-mdast`][hast-util-to-mdast-node-handle]
-*   `quotes` (`Array<string>`, default: `['"']`)
-    — list of quotes to use; each value can be one or two characters; when two,
-    the first character determines the opening quote and the second the closing
-    quote at that level; when one, both the opening and closing quote are that
-    character; the order in which the preferred quotes appear determines which
-    quotes to use at which level of nesting; so, to prefer `‘’` at the first
-    level of nesting, and `“”` at the second, pass `['‘’', '“”']`; if `<q>`s
-    are nested deeper than the given amount of quotes, the markers wrap around:
-    a third level of nesting when using `['«»', '‹›']` should have double
-    guillemets, a fourth single, a fifth double again, etc
-*   `unchecked` (`string`, default: `'[ ]'`)
-    — value to use for an unchecked checkbox or radio input
+* `checked` (`string`, default: `'[x]'`)
+  — value to use for a checked checkbox or radio input
+* `document` (`boolean`, default: `true`)
+  — whether the given tree represents a complete document; when the tree
+  represents a complete document, then things are wrapped in paragraphs
+  when needed, and otherwise they’re left as-is
+* `handlers` (`Record<string, Handle>`, optional)
+  — object mapping tag names to functions handling the corresponding
+  elements; merged into the defaults; see
+  [`Handle` in `hast-util-to-mdast`][github-hast-util-to-mdast-handle]
+* `newlines` (`boolean`, default: `false`)
+  — keep line endings when collapsing whitespace; the default collapses to a
+  single space
+* `nodeHandlers` (`Record<string, NodeHandle>`, optional)
+  — object mapping node types to functions handling the corresponding nodes;
+  merged into the defaults; see
+  [`NodeHandle` in `hast-util-to-mdast`][github-hast-util-to-mdast-node-handle]
+* `quotes` (`Array<string>`, default: `['"']`)
+  — list of quotes to use; each value can be one or two characters; when two,
+  the first character determines the opening quote and the second the closing
+  quote at that level; when one, both the opening and closing quote are that
+  character; the order in which the preferred quotes appear determines which
+  quotes to use at which level of nesting; so, to prefer `‘’` at the first
+  level of nesting, and `“”` at the second, pass `['‘’', '“”']`; if `<q>`s
+  are nested deeper than the given amount of quotes, the markers wrap around:
+  a third level of nesting when using `['«»', '‹›']` should have double
+  guillemets, a fourth single, a fifth double again, etc
+* `unchecked` (`string`, default: `'[ ]'`)
+  — value to use for an unchecked checkbox or radio input
 
 ## Examples
 
@@ -273,7 +273,8 @@ Some text with <svg viewBox="0 0 1 1" width="1" height="1"><rect fill="black" x=
 
 This package is fully typed with [TypeScript][].
 It exports the additional type [`Options`][api-options].
-More advanced types are exposed from [`hast-util-to-mdast`][hast-util-to-mdast].
+More advanced types are exposed from
+[`hast-util-to-mdast`][github-hast-util-to-mdast].
 
 ## Compatibility
 
@@ -295,95 +296,85 @@ Use of `rehype-remark` is safe by default.
 
 ## Related
 
-*   [`remark-rehype`](https://github.com/remarkjs/remark-rehype)
-    — remark plugin to turn markdown into HTML
-*   [`remark-retext`](https://github.com/remarkjs/remark-retext)
-    — remark plugin to support retext
-*   [`rehype-retext`](https://github.com/rehypejs/rehype-retext)
-    — rehype plugin to support retext
+* [`remark-rehype`][github-remark-rehype]
+  — remark plugin to turn markdown into HTML
+* [`remark-retext`](https://github.com/remarkjs/remark-retext)
+  — remark plugin to support retext
+* [`rehype-retext`](https://github.com/rehypejs/rehype-retext)
+  — rehype plugin to support retext
 
 ## Contribute
 
-See [`contributing.md`][contributing] in [`rehypejs/.github`][health] for ways
-to get started.
-See [`support.md`][support] for ways to get help.
+See [`contributing.md`][health-contributing] in [`rehypejs/.github`][health]
+for ways to get started.
+See [`support.md`][health-support] for ways to get help.
 
-This project has a [code of conduct][coc].
+This project has a [code of conduct][health-coc].
 By interacting with this repository, organization, or community you agree to
 abide by its terms.
 
 ## License
 
-[MIT][license] © [Titus Wormer][author]
+[MIT][file-license] © [Titus Wormer][wooorm]
 
 <!-- Definitions -->
-
-[build-badge]: https://github.com/rehypejs/rehype-remark/workflows/main/badge.svg
-
-[build]: https://github.com/rehypejs/rehype-remark/actions
-
-[coverage-badge]: https://img.shields.io/codecov/c/github/rehypejs/rehype-remark.svg
-
-[coverage]: https://codecov.io/github/rehypejs/rehype-remark
-
-[downloads-badge]: https://img.shields.io/npm/dm/rehype-remark.svg
-
-[downloads]: https://www.npmjs.com/package/rehype-remark
-
-[size-badge]: https://img.shields.io/bundlejs/size/rehype-remark
-
-[size]: https://bundlejs.com/?q=rehype-remark
-
-[sponsors-badge]: https://opencollective.com/unified/sponsors/badge.svg
-
-[backers-badge]: https://opencollective.com/unified/backers/badge.svg
-
-[collective]: https://opencollective.com/unified
-
-[chat-badge]: https://img.shields.io/badge/chat-discussions-success.svg
-
-[chat]: https://github.com/rehypejs/rehype/discussions
-
-[npm]: https://docs.npmjs.com/cli/install
-
-[esm]: https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c
-
-[esmsh]: https://esm.sh
-
-[health]: https://github.com/rehypejs/.github
-
-[contributing]: https://github.com/rehypejs/.github/blob/main/contributing.md
-
-[support]: https://github.com/rehypejs/.github/blob/main/support.md
-
-[coc]: https://github.com/rehypejs/.github/blob/main/code-of-conduct.md
-
-[license]: license
-
-[author]: https://wooorm.com
-
-[typescript]: https://www.typescriptlang.org
-
-[rehype]: https://github.com/rehypejs/rehype
-
-[remark]: https://github.com/remarkjs/remark
-
-[remark-rehype]: https://github.com/remarkjs/remark-rehype
-
-[unified]: https://github.com/unifiedjs/unified
-
-[unified-mode]: https://github.com/unifiedjs/unified#transforming-between-ecosystems
-
-[unified-processor]: https://github.com/unifiedjs/unified#processor
-
-[unified-transformer]: https://github.com/unifiedjs/unified#transformer
-
-[hast-util-to-mdast]: https://github.com/syntax-tree/hast-util-to-mdast
-
-[hast-util-to-mdast-handle]: https://github.com/syntax-tree/hast-util-to-mdast#handle
-
-[hast-util-to-mdast-node-handle]: https://github.com/syntax-tree/hast-util-to-mdast#nodehandle
 
 [api-options]: #options
 
 [api-rehype-remark]: #unifieduserehyperemark-destination-options
+
+[badge-build-image]: https://github.com/rehypejs/rehype-remark/workflows/main/badge.svg
+
+[badge-build-url]: https://github.com/rehypejs/rehype-remark/actions
+
+[badge-coverage-image]: https://img.shields.io/codecov/c/github/rehypejs/rehype-remark.svg
+
+[badge-coverage-url]: https://codecov.io/github/rehypejs/rehype-remark
+
+[badge-downloads-image]: https://img.shields.io/npm/dm/rehype-remark.svg
+
+[badge-downloads-url]: https://www.npmjs.com/package/rehype-remark
+
+[badge-size-image]: https://img.shields.io/bundlejs/size/rehype-remark
+
+[badge-size-url]: https://bundlejs.com/?q=rehype-remark
+
+[esmsh]: https://esm.sh
+
+[file-license]: license
+
+[github-gist-esm]: https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c
+
+[github-hast-util-to-mdast]: https://github.com/syntax-tree/hast-util-to-mdast
+
+[github-hast-util-to-mdast-handle]: https://github.com/syntax-tree/hast-util-to-mdast#handle
+
+[github-hast-util-to-mdast-node-handle]: https://github.com/syntax-tree/hast-util-to-mdast#nodehandle
+
+[github-rehype]: https://github.com/rehypejs/rehype
+
+[github-remark]: https://github.com/remarkjs/remark
+
+[github-remark-rehype]: https://github.com/remarkjs/remark-rehype
+
+[github-unified]: https://github.com/unifiedjs/unified
+
+[github-unified-mode]: https://github.com/unifiedjs/unified#transforming-between-ecosystems
+
+[github-unified-processor]: https://github.com/unifiedjs/unified#processor
+
+[github-unified-transformer]: https://github.com/unifiedjs/unified#transformer
+
+[health]: https://github.com/rehypejs/.github
+
+[health-coc]: https://github.com/rehypejs/.github/blob/main/code-of-conduct.md
+
+[health-contributing]: https://github.com/rehypejs/.github/blob/main/contributing.md
+
+[health-support]: https://github.com/rehypejs/.github/blob/main/support.md
+
+[npmjs-install]: https://docs.npmjs.com/cli/install
+
+[typescript]: https://www.typescriptlang.org
+
+[wooorm]: https://wooorm.com
